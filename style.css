@@ -388,7 +388,7 @@
             overflow: hidden;
             border: none;
             cursor: pointer;
-            width: auto;
+            width: 240px;
         }
 
         .btn::before {
