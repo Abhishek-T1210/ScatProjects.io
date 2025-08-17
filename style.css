@@ -221,7 +221,7 @@
         }
 
          .hero {
-            min-height: 100vh;
+            min-height: 130vh;
             background: var(--gradient-hero);
             position: relative;
             display: flex;
@@ -309,7 +309,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            min-height: 100vh;
+            min-height: 130vh;
         }
 
         .hero-text {
