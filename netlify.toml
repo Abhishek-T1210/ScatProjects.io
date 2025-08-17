@@ -1,0 +1,8 @@
+[build]
+  publish = "."        # directory where your index.html is located
+  command = ""         # no build command needed for plain HTML
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
