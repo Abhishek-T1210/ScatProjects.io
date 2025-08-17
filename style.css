@@ -934,7 +934,6 @@
     opacity: 1;
     transform: translateY(0);
 }
-
 .portfolio {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
@@ -1063,8 +1062,10 @@
 
 .portfolio-image {
     height: 200px;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
+    background-color: #f8fafc; /* Fallback background color for empty space */
     border-radius: 15px 15px 0 0;
     position: relative;
 }
@@ -1234,6 +1235,10 @@
 
 #modal-body .portfolio-image {
     height: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f8fafc;
     border-radius: 15px 15px 0 0;
 }
 
