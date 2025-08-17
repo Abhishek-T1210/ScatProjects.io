@@ -500,17 +500,17 @@
             font-weight: 600;
         }
 
-        .stats-container {
+        .stats-containerx {
             display: flex;
             gap: 3rem;
             animation: slideUp 1s ease-out 1s both;
         }
 
-        .stat-item {
+        .stat-itemx {
             text-align: center;
         }
 
-        .stat-number {
+        .stat-numberx {
             font-size: 2.5rem;
             font-weight: 800;
             color:white;
@@ -518,7 +518,7 @@
             line-height: 1;
         }
 
-        .stat-label {
+        .stat-labelx {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
