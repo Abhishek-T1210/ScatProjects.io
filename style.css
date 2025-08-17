@@ -802,6 +802,7 @@
     display: flex;
     animation: slide 15s linear infinite;
     will-change: transform;
+    margin: 10px;
 }
 
 @keyframes slide {
