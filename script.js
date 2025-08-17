@@ -1,5 +1,8 @@
+// JavaScript remains mostly unchanged, but added subtle enhancements for animations if needed.
+// Assuming the existing JS handles animate-on-scroll via IntersectionObserver, which is professional and efficient.
+// No major overhauls needed here unless specified.
 document.addEventListener("DOMContentLoaded", () => {
-    // Loader
+    // Loader (unchanged)
     const loader = document.getElementById('loader');
     if (loader) {
         window.addEventListener('load', () => {
@@ -9,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Mobile Menu
+    // Mobile Menu (unchanged)
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.querySelector('.nav-menu');
     if (mobileToggle && navMenu) {
@@ -21,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Header Scroll Effect
+    // Header Scroll Effect (unchanged)
     const header = document.getElementById('header');
     if (header) {
         window.addEventListener('scroll', () => {
@@ -33,19 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Scroll Animations
+    // Scroll Animations (enhanced threshold for better mobile experience)
     const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
     if (animateOnScrollElements.length > 0 && 'IntersectionObserver' in window) {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.15  // Slightly increased for smoother trigger
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animated');
+                    observer.unobserve(entry.target);  // Unobserve after animation to optimize performance
                 }
             });
         }, observerOptions);
@@ -53,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         animateOnScrollElements.forEach(element => observer.observe(element));
     }
 
-    // Portfolio Filter
+    // Portfolio Filter (unchanged, assuming it's not part of about section)
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
     if (filterButtons.length > 0 && portfolioItems.length > 0) {
