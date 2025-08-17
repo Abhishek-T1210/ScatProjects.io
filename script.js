@@ -57,6 +57,28 @@ document.addEventListener("DOMContentLoaded", () => {
         animateOnScrollElements.forEach(element => observer.observe(element));
     }
 
+    document.addEventListener("DOMContentLoaded", () => {
+    const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
+    if (animateOnScrollElements.length > 0 && 'IntersectionObserver' in window) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.25
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        animateOnScrollElements.forEach(element => observer.observe(element));
+    }
+});
+
     // Portfolio Filter (unchanged, assuming it's not part of about section)
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
