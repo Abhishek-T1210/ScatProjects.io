@@ -671,6 +671,9 @@
     color: #ffffff;
     font-weight: 600;
     border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
     transition: background 0.3s ease, transform 0.3s ease;
 }
@@ -1528,260 +1531,279 @@
             font-size: 0.85rem;
             opacity: 0.8;
         }
+/* Media Queries for Responsive Design */
 
-        @media (max-width: 1024px) {
-           .hero-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                text-align: center;
-            }
-
-            .hero-text, .hero-visual {
-                max-width: 100%;
-            }
-
-            .hero-actions {
-                justify-content: center;
-            }
-
-            .visual-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                max-width: 100%;
-            }
-
-            .hero-title {
-                font-size: clamp(2rem, 5vw, 2.8rem);
-            }
-
-            .hero-description {
-                font-size: clamp(1rem, 2vw, 1.1rem);
-            }
-
-            .stats-container {
-                justify-content: center;
-                gap: 2rem;
-            }
-        
-        .nav-menu {
-            display: none;
-            position: absolute;
-            top: 80px;
-            left: 0;
-                right: 0;
-                background: var(--dark);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .nav-link {
-                color: var(--white);
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .about-content,
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .services-grid,
-            .portfolio-grid,
-            .team-grid,
-            .testimonials-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1.5rem;
-            }
-            .about-content {
+/* Tablets and Smaller Desktops (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .hero-content {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .hero-text, .hero-visual {
+        max-width: 100%;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .visual-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        max-width: 100%;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 5vw, 2.8rem);
+    }
+
+    .hero-description {
+        font-size: clamp(1rem, 2vw, 1.1rem);
+    }
+
+    .stats-container {
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: #1f2937;
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-link {
+        color: #ffffff;
+        font-size: 1.1rem;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .about-content,
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .services-grid,
+    .portfolio-grid,
+    .team-grid,
+    .testimonials-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .about {
+        padding: 3.5rem 1.5rem;
     }
 
     .about-video video {
         height: 300px;
     }
-        }
 
-        @media (max-width: 768px) {
-           .hero {
-                padding: 1rem;
-                min-height: auto;
-            }
+    .about-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-            .hero-container {
-                padding: 1rem;
-            }
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+    .hero {
+        padding: 1rem;
+        min-height: auto;
+    }
 
-            .visual-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 1rem;
-            }
+    .hero-container {
+        padding: 1rem;
+    }
 
-            .visual-card {
-                padding: 1.5rem;
-            }
+    .visual-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+    }
 
-            .visual-card i {
-                font-size: 1.8rem;
-            }
+    .visual-card {
+        padding: 1.5rem;
+    }
 
-            .visual-card h4 {
-                font-size: 0.8rem;
-            }
+    .visual-card i {
+        font-size: 1.8rem;
+    }
 
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-                width: 200px;
-            }
+    .visual-card h4 {
+        font-size: 0.8rem;
+    }
 
-            .stat-number {
-                font-size: 2rem;
-            }
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        width: 200px;
+    }
 
-            .stat-label {
-                font-size: 0.8rem;
-            }
+    .stat-number {
+        font-size: 2rem;
+    }
 
-            .floating-element:nth-child(1) {
-                width: 60px;
-                height: 60px;
-            }
+    .stat-label {
+        font-size: 0.8rem;
+    }
 
-            .floating-element:nth-child(2) {
-                width: 80px;
-                height: 80px;
-            }
+    .floating-element:nth-child(1) {
+        width: 60px;
+        height: 60px;
+    }
 
-            .floating-element:nth-child(3) {
-                width: 40px;
-                height: 40px;
-            }
-        
-            .services-grid,
-            .portfolio-grid,
-            .team-grid,
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
+    .floating-element:nth-child(2) {
+        width: 80px;
+        height: 80px;
+    }
 
-            .process-timeline::before {
-                left: 1.5rem;
-            }
+    .floating-element:nth-child(3) {
+        width: 40px;
+        height: 40px;
+    }
 
-            .process-step {
-                flex-direction: row !important;
-                padding-left: 3.5rem;
-            }
+    .services-grid,
+    .portfolio-grid,
+    .team-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
 
-            .process-content {
-                text-align: left !important;
-                margin: 0;
-            }
+    .process-timeline::before {
+        left: 1.5rem;
+    }
 
-            .process-number {
-                left: 1.5rem;
-                transform: none;
-            }
+    .process-step {
+        flex-direction: row !important;
+        padding-left: 3.5rem;
+    }
 
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+    .process-content {
+        text-align: left !important;
+        margin: 0;
+    }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
+    .process-number {
+        left: 1.5rem;
+        transform: none;
+    }
 
-            section {
-                padding: 4rem 1rem;
-            }
-            .about {
-        padding: 4rem 1rem;
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 3rem 1rem;
+    }
+
+    .about {
+        padding: 3rem 1rem;
     }
 
     .section-title {
-        font-size: 2.5rem;
+        font-size: clamp(1.8rem, 4vw, 2.2rem);
     }
 
     .about-features {
         grid-template-columns: 1fr;
     }
 
-    .about-metrics {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-        }
-
-         @media (max-width: 480px) {
-            .hero-title {
-                font-size: clamp(1.6rem, 4vw, 2rem);
-            }
-
-            .hero-description {
-                font-size: clamp(0.9rem, 1.5vw, 1rem);
-            }
-
-            .hero-badge {
-                font-size: 0.8rem;
-                padding: 0.4rem 0.8rem;
-            }
-
-            .visual-grid {
-                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-            }
-
-            .visual-card {
-                padding: 1rem;
-            }
-
-            .visual-card i {
-                font-size: 1.5rem;
-            }
-
-            .visual-card h4 {
-                font-size: 0.7rem;
-            }
-
-            .btn {
-                padding: 0.7rem 1rem;
-                font-size: 0.8rem;
-                width: 100%;
-                max-width: 180px;
-            }
-
-            .stats-container {
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-
-            .stat-item {
-                min-width: 80px;
-            }
-
-            .scroll-indicator {
-                bottom: 1rem;
-            }
-
-            .scroll-indicator p {
-                font-size: 0.7rem;
-            }
-            about-metrics {
+    .about-stats {
         grid-template-columns: 1fr;
     }
+}
 
-    .metric-card {
-        padding: 1.5rem 1rem;
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: clamp(1.6rem, 4vw, 2rem);
+    }
+
+    .hero-description {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+    }
+
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .visual-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    }
+
+    .visual-card {
+        padding: 1rem;
+    }
+
+    .visual-card i {
+        font-size: 1.5rem;
+    }
+
+    .visual-card h4 {
+        font-size: 0.7rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.8rem;
+        width: 100%;
+        max-width: 180px;
+    }
+
+    .stats-container {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        min-width: 80px;
+    }
+
+    .scroll-indicator {
+        bottom: 1rem;
+    }
+
+    .scroll-indicator p {
+        font-size: 0.7rem;
+    }
+
+    .about-text {
+        font-size: 0.9rem;
+    }
+
+    .about-video video {
+        height: 250px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+
+    .stat-item {
+        padding: 1rem;
     }
 }
-        
