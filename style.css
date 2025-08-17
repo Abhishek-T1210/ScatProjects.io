@@ -803,7 +803,7 @@
     display: flex;
     animation: slide 8s linear infinite;
     will-change: transform;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
