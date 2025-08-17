@@ -816,9 +816,9 @@
     }
 }
 
-.services-slider:hover .slider-track {
+/* .services-slider:hover .slider-track {
     animation-play-state: paused;
-}
+} */
 
 .service-card {
     background: #ffffff;
