@@ -221,7 +221,7 @@
         }
 
          .hero {
-            min-height: 130vh;
+            min-height: 110vh;
             background: var(--gradient-hero);
             position: relative;
             display: flex;
@@ -309,7 +309,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            min-height: 130vh;
+            min-height: 110vh;
         }
 
         .hero-text {
@@ -333,7 +333,7 @@
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 3.3rem);
+            font-size: clamp(2.5rem, 6vw, 3rem);
             font-weight: 800;
             color: var(--white);
             margin-bottom: 1.5rem;
@@ -356,7 +356,7 @@
         }
 
         .hero-description {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 2.5rem;
             line-height: 1.6;
