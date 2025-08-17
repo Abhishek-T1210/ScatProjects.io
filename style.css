@@ -388,7 +388,7 @@
             overflow: hidden;
             border: none;
             cursor: pointer;
-            width: auto;
+            width: 260px;
         }
 
         .btn::before {
@@ -456,8 +456,8 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
-            height: 150px;
-            width: 150px;
+            height: 130px;
+            width: 130px;
             animation: cardFloat 6s ease-in-out infinite;
         }
 
