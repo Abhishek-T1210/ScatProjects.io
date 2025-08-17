@@ -333,7 +333,7 @@
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 3rem);
+            font-size: clamp(2.5rem, 6vw, 2.6rem);
             font-weight: 800;
             color: var(--white);
             margin-bottom: 1.5rem;
@@ -388,7 +388,7 @@
             overflow: hidden;
             border: none;
             cursor: pointer;
-            width: 260px;
+            width: auto;
         }
 
         .btn::before {
@@ -456,6 +456,8 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            height: 150px;
+            width: 150px;
             animation: cardFloat 6s ease-in-out infinite;
         }
 
