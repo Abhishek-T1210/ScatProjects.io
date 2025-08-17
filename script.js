@@ -1,8 +1,5 @@
-// JavaScript remains mostly unchanged, but added subtle enhancements for animations if needed.
-// Assuming the existing JS handles animate-on-scroll via IntersectionObserver, which is professional and efficient.
-// No major overhauls needed here unless specified.
 document.addEventListener("DOMContentLoaded", () => {
-    // Loader (unchanged)
+    // Loader
     const loader = document.getElementById('loader');
     if (loader) {
         window.addEventListener('load', () => {
@@ -12,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Mobile Menu (unchanged)
+    // Mobile Menu
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.querySelector('.nav-menu');
     if (mobileToggle && navMenu) {
@@ -24,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Header Scroll Effect (unchanged)
+    // Header Scroll Effect
     const header = document.getElementById('header');
     if (header) {
         window.addEventListener('scroll', () => {
@@ -36,34 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Scroll Animations (enhanced threshold for better mobile experience)
+    // Scroll Animations
     const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
     if (animateOnScrollElements.length > 0 && 'IntersectionObserver' in window) {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15  // Slightly increased for smoother trigger
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                    observer.unobserve(entry.target);  // Unobserve after animation to optimize performance
-                }
-            });
-        }, observerOptions);
-
-        animateOnScrollElements.forEach(element => observer.observe(element));
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-    const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
-    if (animateOnScrollElements.length > 0 && 'IntersectionObserver' in window) {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.25
+            threshold: 0.15
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -77,9 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         animateOnScrollElements.forEach(element => observer.observe(element));
     }
-});
 
-    // Portfolio Filter (unchanged, assuming it's not part of about section)
+    // Portfolio Filter
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
     if (filterButtons.length > 0 && portfolioItems.length > 0) {
@@ -104,4 +79,35 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // Modal Functionality
+    const modal = document.getElementById('portfolio-modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeBtn = document.querySelector('.modal-close');
+    const detailBtns = document.querySelectorAll('.portfolio-overlay-btn');
+
+    detailBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const item = btn.closest('.portfolio-item').cloneNode(true);
+            modalBody.innerHTML = '';
+            modalBody.appendChild(item);
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.querySelector('.modal-content').classList.add('animated');
+            }, 100);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        modal.querySelector('.modal-content').classList.remove('animated');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            modal.querySelector('.modal-content').classList.remove('animated');
+        }
+    });
 });
