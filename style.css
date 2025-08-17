@@ -28,8 +28,7 @@
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
             --blur-sm: blur(4px);
             --blur-md: blur(8px);
-        }
-
+ }
         * {
             margin: 0;
             padding: 0;
@@ -934,6 +933,7 @@
     opacity: 1;
     transform: translateY(0);
 }
+/* Portfolio Base Styles */
 .portfolio {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
@@ -1713,8 +1713,6 @@
             opacity: 0.8;
         }
 /* Media Queries for Responsive Design */
-
-/* Tablets and Smaller Desktops (max-width: 1024px) */
 @media (max-width: 1024px) {
     .hero-content {
         grid-template-columns: 1fr;
@@ -1812,6 +1810,27 @@
 
     .about-stats {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, 350px);
+        gap: 1.5rem;
+    }
+
+    .portfolio-item {
+        width: 350px;
+    }
+
+    .portfolio {
+        padding: 4rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .section-description {
+        font-size: 0.95rem;
     }
 }
 
@@ -1933,7 +1952,7 @@
         grid-template-columns: 1fr;
     }
 
-    section {
+    .section {
         padding: 3rem 1rem;
     }
 
@@ -1951,6 +1970,57 @@
 
     .about-stats {
         grid-template-columns: 1fr;
+    }
+
+    .portfolio {
+        padding: 3rem 1rem;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 350px;
+        gap: 1.5rem;
+        justify-content: center;
+    }
+
+    .portfolio-item {
+        width: 350px;
+    }
+
+    .portfolio-image {
+        height: 180px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #f8fafc;
+    }
+
+    .portfolio-filters {
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .modal-content {
+        max-width: 85%;
+    }
+
+    #modal-body .portfolio-image {
+        height: 240px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #f8fafc;
+    }
+
+    #modal-body .portfolio-title {
+        font-size: 1.4rem;
+    }
+
+    #modal-body .portfolio-description {
+        font-size: 0.95rem;
     }
 }
 
@@ -2064,5 +2134,87 @@
 
     .service-features li {
         font-size: 0.7rem;
+    }
+
+    .portfolio {
+        padding: 2rem 0.5rem;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 350px;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .portfolio-item {
+        width: 350px;
+    }
+
+    .portfolio-image {
+        height: 160px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #f8fafc;
+    }
+
+    .portfolio-filters {
+        gap: 0.4rem;
+    }
+
+    .filter-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .portfolio-title {
+        font-size: 1.1rem;
+    }
+
+    .portfolio-description {
+        font-size: 0.8rem;
+    }
+
+    .portfolio-overlay-content h4 {
+        font-size: 0.95rem;
+    }
+
+    .portfolio-overlay-btn {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .modal-content {
+        max-width: 95%;
+        transform: scale(0.9);
+    }
+
+    .modal-content.animated {
+        transform: scale(1);
+    }
+
+    #modal-body .portfolio-image {
+        height: 200px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #f8fafc;
+    }
+
+    #modal-body .portfolio-title {
+        font-size: 1.2rem;
+    }
+
+    #modal-body .portfolio-description {
+        font-size: 0.85rem;
+    }
+
+    #modal-body .portfolio-content {
+        padding: 1.5rem;
+    }
+
+    .tech-tag {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
     }
 }
