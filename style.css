@@ -314,6 +314,7 @@
 
         .hero-text {
             max-width: 600px;
+            padding-bottom: 30px;
         }
 
         .hero-badge {
