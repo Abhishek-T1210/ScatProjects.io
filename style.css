@@ -309,7 +309,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            min-height: 110vh;
+            min-height: 96vh;
         }
 
         .hero-text {
@@ -377,7 +377,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
+            padding: 16px 20px;
             border-radius: 12px;
             text-decoration: none;
             justify-content: center;
@@ -388,7 +388,7 @@
             overflow: hidden;
             border: none;
             cursor: pointer;
-            width: 240px;
+            width: 224px;
         }
 
         .btn::before {
