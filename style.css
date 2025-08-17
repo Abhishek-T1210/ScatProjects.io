@@ -552,7 +552,7 @@
         }
         
 
-        .about {
+     .about {
     padding: 5rem 1.5rem;
     background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
     position: relative;
@@ -698,7 +698,7 @@
     transform: scale(1.05);
 }
 
-.about-statsx {
+.about-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -706,7 +706,7 @@
     text-align: center;
 }
 
-.stat-itemx {
+.stat-item {
     background: #ffffff;
     padding: 1.5rem;
     border-radius: 12px;
@@ -714,11 +714,11 @@
     transition: transform 0.3s ease;
 }
 
-.stat-itemx:hover {
+.stat-item:hover {
     transform: translateY(-10px);
 }
 
-.stat-numberx {
+.stat-number {
     font-size: 2.2rem;
     font-weight: 700;
     color: #3b82f6;
@@ -726,7 +726,7 @@
     margin-bottom: 0.5rem;
 }
 
-.stat-labelx {
+.stat-label {
     font-size: 0.95rem;
     color: #374151;
     font-weight: 500;
