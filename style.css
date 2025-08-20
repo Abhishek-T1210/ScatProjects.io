@@ -1363,7 +1363,7 @@
     color: #b0b0bb; /* Muted gray for title */
 }
 .xxprocess {
-    padding: 5rem 2rem;
+    padding: 3rem 2rem;
     background: var(--gray-50); /* Light background for contrast */
     position: relative;
     overflow: hidden;
