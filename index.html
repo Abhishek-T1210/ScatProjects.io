@@ -12,34 +12,28 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
    <link rel="stylesheet" href="style.css">
    
-  <script>
-    // 🔒 Block right-click
+  <!-- <script>
     document.addEventListener("contextmenu", function (event) {
       event.preventDefault();
     }, true);
 
-    // 🔒 Block F12, Ctrl+Shift+I/J/C, and Ctrl+U
     document.addEventListener("keydown", function (event) {
-      // F12
       if (event.key === "F12") {
         event.preventDefault();
       }
 
-      // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
       if (event.ctrlKey && event.shiftKey && ["I", "J", "C"].includes(event.key.toUpperCase())) {
         event.preventDefault();
       }
 
-      // Ctrl+U (View Source)
       if (event.ctrlKey && event.key.toUpperCase() === "U") {
         event.preventDefault();
       }
     }, true);
-  </script>
+  </script> -->
      <script src="script.js" defer></script>
 </head>
 <body>
- <!-- Updated loader section in HTML -->
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-logo">⚡</div>
