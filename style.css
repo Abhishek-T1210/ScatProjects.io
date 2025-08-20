@@ -1557,9 +1557,7 @@
             opacity: 0.9;
             margin-bottom: 2rem;
         }
-/* Callback Popup CSS - Add this to your style.css file */
-
-/* Futuristic Callback Overlay */
+/* Existing styles (callback popup and loader) */
 .futuristic-callback-overlay {
     position: fixed;
     top: 0;
@@ -1587,7 +1585,7 @@
     padding: 2.5rem;
     border-radius: 16px;
     text-align: center;
-    max-width: 536px; /* Increased width for side-by-side identical buttons */
+    max-width: 536px;
     width: 95%;
     position: relative;
     overflow: hidden;
@@ -1718,19 +1716,19 @@
     display: block;
 }
 
-.futuristic-form-input ::placeholder{
+.futuristic-form-input::placeholder {
     color: white;
 }
 
 .futuristic-button-group {
     display: flex;
-    flex-direction: row; /* Buttons side by side */
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
 .futuristic-form-submit, .futuristic-whatsapp-button {
-    flex: 1; /* Equal width for both buttons */
+    flex: 1;
     padding: 0.95rem;
     border: none;
     border-radius: 10px;
@@ -1744,9 +1742,9 @@
     text-align: center;
     text-decoration: none;
     color: #ffffff;
-    min-width: 160px; /* Ensures identical minimum width */
-    height: 48px; /* Fixed height for identical appearance */
-    line-height: 1; /* Aligns text vertically */
+    min-width: 160px;
+    height: 48px;
+    line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1826,22 +1824,54 @@
     animation-delay: 4s;
 }
 
-/* Acknowledgment Popup */
-.futuristic-ack-overlay {
-    position: fixed;
+.futuristic-loader {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 15, 35, 0.75);
+    background: rgba(26, 26, 46, 0.95);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2100;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(3px);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.futuristic-loader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.futuristic-loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid transparent;
+    border-top-color: #6366f1;
+    border-right-color: #8b5cf6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+}
+
+/* Updated Acknowledgment Popup Styles */
+.futuristic-ack-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 35, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(4px);
 }
 
 .futuristic-ack-overlay.active {
@@ -1850,43 +1880,47 @@
 }
 
 .futuristic-ack-content {
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(45, 27, 105, 0.9));
-    padding: 1.5rem;
-    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(34, 34, 68, 0.9), rgba(59, 7, 100, 0.9));
+    padding: 2rem;
+    border-radius: 14px;
     text-align: center;
-    max-width: 350px;
+    max-width: 400px;
     width: 90%;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-    transform: scale(0.7);
-    transition: transform 0.4s ease-in-out;
-    border: 1px solid rgba(99, 102, 241, 0.7);
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.5);
+    transform: scale(0.8);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    border: 1px solid rgba(139, 92, 246, 0.6);
 }
 
 .futuristic-ack-overlay.active .futuristic-ack-content {
     transform: scale(1);
+    opacity: 1;
 }
 
 .futuristic-ack-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #10b981;
-    animation: pulseGlow 1.5s ease-in-out infinite;
+    font-size: 2.8rem;
+    margin-bottom: 1.2rem;
+    color: #34d399;
+    animation: pulseGlow 1.8s ease-in-out infinite;
 }
 
 .futuristic-ack-content h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f3e8ff;
+    margin-bottom: 0.75rem;
     font-family: 'Inter', sans-serif;
+    text-shadow: 0 0 5px rgba(139, 92, 246, 0.3);
 }
 
 .futuristic-ack-content p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #e2e8f0;
     font-family: 'Inter', sans-serif;
+    line-height: 1.5;
 }
 
+/* Animations */
 @keyframes pulseGlow {
     0% { transform: scale(1); text-shadow: 0 0 10px rgba(99, 102, 241, 0.6); }
     50% { transform: scale(1.15); text-shadow: 0 0 20px rgba(99, 102, 241, 0.9); }
@@ -1897,6 +1931,11 @@
     0% { transform: translateY(0) translateX(0); opacity: 0.7; }
     50% { transform: translateY(-15px) translateX(8px); opacity: 0.3; }
     100% { transform: translateY(0) translateX(0); opacity: 0.7; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
@@ -1914,27 +1953,34 @@
     }
 
     .futuristic-button-group {
-        flex-direction: column; /* Stack buttons on smaller screens */
+        flex-direction: column;
         gap: 0.75rem;
     }
 
     .futuristic-form-submit, .futuristic-whatsapp-button {
         width: 100%;
-        min-width: auto; /* Reset min-width for mobile */
+        min-width: auto;
         height: 48px;
     }
 
     .futuristic-ack-content {
-        padding: 1.2rem;
-        max-width: 300px;
+        padding: 1.5rem;
+        max-width: 320px;
     }
 
     .futuristic-ack-content h3 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+    }
+
+    .futuristic-ack-content p {
+        font-size: 0.9rem;
+    }
+
+    .futuristic-loader-spinner {
+        width: 32px;
+        height: 32px;
     }
 }
-
-
 .contact {
     width: 100%;
     padding: 4rem 2rem;

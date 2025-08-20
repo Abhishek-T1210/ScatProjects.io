@@ -1,0 +1,28 @@
+{
+  "name": "scatprojects.io",
+  "version": "1.0.0",
+  "description": "ScatProjects.io backend and frontend server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhishek-T1210/ScatProjects.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhishek-T1210/ScatProjects.io/issues"
+  },
+  "homepage": "https://github.com/Abhishek-T1210/ScatProjects.io#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "node-fetch": "^2.7.0"
+  }
+}

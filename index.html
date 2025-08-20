@@ -688,59 +688,63 @@
                     <div class="form-progress-bar" id="formProgressBar"></div>
                 </div>
             </div>
-           <form class="contact-form" id="contactForm">
-    <div class="form-row">
-        <div class="form-group" data-animate="fadeInUp">
-            <label for="name" class="form-label">Full Name</label>
-            <div class="input-wrapper">
-                <i class="fas fa-user input-icon"></i>
-                <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
-            </div>
-            <span class="form-error"></span>
-        </div>
-        <div class="form-group" data-animate="fadeInUp" data-delay="0.1s">
-            <label for="phone" class="form-label">Phone Number</label>
-            <div class="input-wrapper">
-                <i class="fas fa-phone-alt input-icon"></i>
-                <input type="tel" id="phone" class="form-input" placeholder="Your 10-digit number" required>
-            </div>
-            <span class="form-error"></span>
+
+            <!-- ✅ Updated Form -->
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <div class="form-group" data-animate="fadeInUp">
+                        <label for="name" class="form-label">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
+                        </div>
+                        <span class="form-error"></span>
+                    </div>
+                    <div class="form-group" data-animate="fadeInUp" data-delay="0.1s">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-phone-alt input-icon"></i>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your 10-digit number" required>
+                        </div>
+                        <span class="form-error"></span>
+                    </div>
+                </div>
+                <div class="form-group" data-animate="fadeInUp" data-delay="0.2s">
+                    <label for="branch" class="form-label">Branch / Stream</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-graduation-cap input-icon"></i>
+                        <input type="text" id="branch" name="branch" class="form-input" placeholder="e.g., Computer Engineering" required>
+                    </div>
+                    <span class="form-error"></span>
+                </div>
+                <div class="form-group" data-animate="fadeInUp" data-delay="0.3s">
+                    <label for="project" class="form-label">Project Details</label>
+                    <div class="input-wrapper">
+                        <i style="top: 36%;" class="fas fa-lightbulb input-icon"></i>
+                        <textarea id="project" name="project" class="form-input form-textarea" placeholder="Describe the project you want us to build..." rows="4" required></textarea>
+                    </div>
+                    <span class="form-error"></span>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="form-submit" data-animate="fadeInUp" data-delay="0.4s">
+                        <span class="btn-text">Request Project <img src="media/telegram.png" alt=""></span>
+                        <span class="btn-loader"><i class="fas fa-spinner"></i></span>
+                    </button>
+                    <a href="https://wa.me/919819833605?text=I%20want%20to%20order%20a%20project"
+                       class="whatsapp-button"
+                       data-animate="fadeInUp"
+                       data-delay="0.5s"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="form-group" data-animate="fadeInUp" data-delay="0.2s">
-        <label for="branch" class="form-label">Branch / Stream</label>
-        <div class="input-wrapper">
-            <i class="fas fa-graduation-cap input-icon"></i>
-            <input type="text" id="branch" class="form-input" placeholder="e.g., Computer Engineering" required>
-        </div>
-        <span class="form-error"></span>
-    </div>
-    <div class="form-group" data-animate="fadeInUp" data-delay="0.3s">
-        <label for="project" class="form-label">Project Details</label>
-        <div class="input-wrapper">
-            <i style ="top: 36%;" class="fas fa-lightbulb input-icon"></i>
-            <textarea id="project" class="form-input form-textarea" placeholder="Describe the project you want us to build..." rows="4" required></textarea>
-        </div>
-        <span class="form-error"></span>
-    </div>
-    <div class="form-buttons">
-        <button type="submit" class="form-submit" data-animate="fadeInUp" data-delay="0.4s">
-            <span class="btn-text">Request Project <img src="media/telegram.png" alt=""></span>
-            <span class="btn-loader"><i class="fas fa-spinner"></i></span>
-        </button>
-  <a href="https://wa.me/919819833605?text=I%20want%20to%20order%20a%20project"
-   class="whatsapp-button" 
-   data-animate="fadeInUp" 
-   data-delay="0.5s" 
-   target="_blank" 
-   rel="noopener noreferrer">
-    <i class="fab fa-whatsapp"></i>
-    <span>Order via WhatsApp</span>
-</a>
-    </div>
-</form>
-        </div>
-    </div>
+
+    <!-- ✅ Popup -->
     <div class="popup-overlay" id="popup">
         <div class="popup-content">
             <div class="popup-icon">
@@ -752,6 +756,7 @@
         </div>
     </div>
 </section>
+
 
     <footer class="footer">
         <div class="footer-container">
@@ -800,7 +805,7 @@
             </div>
         </div>
     </footer>
-<!-- Callback Popup HTML - Insert this right before the closing </body> tag in your main HTML file -->
+<!-- Callback Popup HTML (unchanged) -->
 <div class="futuristic-callback-overlay" id="callbackPopup">
     <div class="futuristic-callback-content">
         <button class="futuristic-callback-close" onclick="closeCallbackPopup()">&times;</button>
@@ -832,14 +837,16 @@
         <div class="futuristic-particle"></div>
         <div class="futuristic-particle"></div>
         <div class="futuristic-particle"></div>
+        <div class="futuristic-loader" id="callbackLoader">
+            <div class="futuristic-loader-spinner"></div>
+        </div>
     </div>
 </div>
-<!-- Acknowledgment Popup HTML -->
 <div class="futuristic-ack-overlay" id="ackPopup">
     <div class="futuristic-ack-content">
         <div class="futuristic-ack-icon">✅</div>
-        <h3>Your Request Has Been Submitted Successfully!</h3>
-        <p>Our team will contact you soon.</p>
+        <h3>Thank You for Reaching Out!</h3>
+        <p>Your request is in! We’ll reach out soon to start building your project.</p>
     </div>
 </div>
 </div>
