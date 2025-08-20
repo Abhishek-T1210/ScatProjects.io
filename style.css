@@ -1557,8 +1557,382 @@
             opacity: 0.9;
             margin-bottom: 2rem;
         }
+/* Callback Popup CSS - Add this to your style.css file */
 
+/* Futuristic Callback Overlay */
+.futuristic-callback-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 35, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(5px);
+}
 
+.futuristic-callback-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.futuristic-callback-content {
+    background: linear-gradient(145deg, rgba(26, 26, 46, 0.95), rgba(45, 27, 105, 0.95));
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 536px; /* Increased width for side-by-side identical buttons */
+    width: 95%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.6), 0 0 50px rgba(139, 92, 246, 0.4);
+    transform: scale(0.7);
+    transition: transform 0.5s ease-in-out;
+    border: 2px solid rgba(99, 102, 241, 0.8);
+}
+
+.futuristic-callback-overlay.active .futuristic-callback-content {
+    transform: scale(1);
+}
+
+.futuristic-callback-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.futuristic-callback-close:hover {
+    color: #8b5cf6;
+    transform: rotate(90deg);
+}
+
+.futuristic-callback-header h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.futuristic-callback-header p {
+    font-size: 1.1rem;
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.futuristic-callback-header .highlight {
+    color: #f59e0b;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.futuristic-callback-icon {
+    font-size: 3.2rem;
+    margin-bottom: 1.2rem;
+    color: #6366f1;
+    animation: pulseGlow 1.5s ease-in-out infinite;
+}
+
+.futuristic-callback-form {
+    display: grid;
+    gap: 1.3rem;
+}
+
+.futuristic-form-group {
+    position: relative;
+}
+
+.futuristic-form-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+}
+
+.futuristic-input-wrapper {
+    position: relative;
+}
+
+.futuristic-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 1.2rem;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.futuristic-form-input {
+    width: 100%;
+    padding: 0.95rem 0.95rem 0.95rem 3rem;
+    border: 2px solid rgba(99, 102, 241, 0.6);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.futuristic-form-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+    outline: none;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.futuristic-form-input:focus + .futuristic-input-icon {
+    color: #6366f1;
+}
+
+.futuristic-form-error {
+    font-size: 0.85rem;
+    color: #ef4444;
+    margin-top: 0.3rem;
+    display: none;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+}
+
+.futuristic-form-error.show {
+    display: block;
+}
+
+.futuristic-form-input ::placeholder{
+    color: white;
+}
+
+.futuristic-button-group {
+    display: flex;
+    flex-direction: row; /* Buttons side by side */
+    justify-content: center;
+    align-items: center;
+}
+
+.futuristic-form-submit, .futuristic-whatsapp-button {
+    flex: 1; /* Equal width for both buttons */
+    padding: 0.95rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    min-width: 160px; /* Ensures identical minimum width */
+    height: 48px; /* Fixed height for identical appearance */
+    line-height: 1; /* Aligns text vertically */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.futuristic-form-submit {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.futuristic-form-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+}
+
+.futuristic-whatsapp-button {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+.futuristic-whatsapp-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.8);
+    background: linear-gradient(135deg, #2ECC71, #1ABC9C);
+}
+
+.futuristic-form-submit::before, .futuristic-whatsapp-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: 0.5s;
+}
+
+.futuristic-form-submit:hover::before, .futuristic-whatsapp-button:hover::before {
+    left: 100%;
+}
+
+.futuristic-btn-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.futuristic-particle {
+    position: absolute;
+    background: #6366f1;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+}
+
+.futuristic-particle:nth-child(1) {
+    width: 12px;
+    height: 12px;
+    top: 15%;
+    left: 25%;
+    animation-delay: 0s;
+}
+
+.futuristic-particle:nth-child(2) {
+    width: 8px;
+    height: 8px;
+    top: 65%;
+    left: 75%;
+    animation-delay: 2s;
+}
+
+.futuristic-particle:nth-child(3) {
+    width: 10px;
+    height: 10px;
+    top: 45%;
+    left: 15%;
+    animation-delay: 4s;
+}
+
+/* Acknowledgment Popup */
+.futuristic-ack-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 35, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(3px);
+}
+
+.futuristic-ack-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.futuristic-ack-content {
+    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(45, 27, 105, 0.9));
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 350px;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    transform: scale(0.7);
+    transition: transform 0.4s ease-in-out;
+    border: 1px solid rgba(99, 102, 241, 0.7);
+}
+
+.futuristic-ack-overlay.active .futuristic-ack-content {
+    transform: scale(1);
+}
+
+.futuristic-ack-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #10b981;
+    animation: pulseGlow 1.5s ease-in-out infinite;
+}
+
+.futuristic-ack-content h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.futuristic-ack-content p {
+    font-size: 0.95rem;
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); text-shadow: 0 0 10px rgba(99, 102, 241, 0.6); }
+    50% { transform: scale(1.15); text-shadow: 0 0 20px rgba(99, 102, 241, 0.9); }
+    100% { transform: scale(1); text-shadow: 0 0 10px rgba(99, 102, 241, 0.6); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) translateX(0); opacity: 0.7; }
+    50% { transform: translateY(-15px) translateX(8px); opacity: 0.3; }
+    100% { transform: translateY(0) translateX(0); opacity: 0.7; }
+}
+
+@media (max-width: 768px) {
+    .futuristic-callback-content {
+        padding: 2rem;
+        max-width: 360px;
+    }
+
+    .futuristic-callback-header h3 {
+        font-size: 1.4rem;
+    }
+
+    .futuristic-callback-icon {
+        font-size: 2.8rem;
+    }
+
+    .futuristic-button-group {
+        flex-direction: column; /* Stack buttons on smaller screens */
+        gap: 0.75rem;
+    }
+
+    .futuristic-form-submit, .futuristic-whatsapp-button {
+        width: 100%;
+        min-width: auto; /* Reset min-width for mobile */
+        height: 48px;
+    }
+
+    .futuristic-ack-content {
+        padding: 1.2rem;
+        max-width: 300px;
+    }
+
+    .futuristic-ack-content h3 {
+        font-size: 1.2rem;
+    }
+}
 
 
 .contact {

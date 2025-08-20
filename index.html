@@ -119,7 +119,7 @@
                             <i class="fas fa-tools"></i>
                             Order Project
                         </a>
-                        <a style="border: 3px solid green;" href="https://wa.me/1234567890" class="btn btn-secondary" target="_blank">
+                        <a style="background: var(--success); border: 2px solid rgba(255, 255, 255, 0.3);" href="https://wa.me/919819833605?text=I%20want%20to%20order%20a%20project" class="btn btn-secondary" target="_blank">
                             <i class="fab fa-whatsapp"></i>
                             Connect Now
                         </a>
@@ -781,6 +781,49 @@
             </div>
         </div>
     </footer>
+<!-- Callback Popup HTML - Insert this right before the closing </body> tag in your main HTML file -->
+<div class="futuristic-callback-overlay" id="callbackPopup">
+    <div class="futuristic-callback-content">
+        <button class="futuristic-callback-close" onclick="closeCallbackPopup()">&times;</button>
+        <div class="futuristic-callback-header">
+            <h3>Build Your First Project!</h3>
+            <p>with us and get <span class="highlight">50% OFF!</span></p>
+        </div>
+        <div class="futuristic-callback-icon">🚀</div>
+        <form class="futuristic-callback-form" id="callbackForm">
+            <div class="futuristic-form-group">
+                <div class="futuristic-input-wrapper">
+                    <i class="fas fa-phone-alt futuristic-input-icon"></i>
+                    <input style="color: white;" type="tel" id="callbackPhone" class="futuristic-form-input" placeholder="Enter your number" required>
+                </div>
+                <span class="futuristic-form-error" id="callbackError"></span>
+            </div>
+            <div class="futuristic-button-group">
+                <button type="submit" class="futuristic-form-submit">
+                    <span class="futuristic-btn-text">Request Callback <i class="fas fa-arrow-right"></i></span>
+                </button>
+                <div class="futuristic-or-divider">
+                    <span>or</span>
+                </div>
+                <a href="https://wa.me/919819833605?text=I%20want%20to%20order%20a%20project" target="_blank" class="futuristic-whatsapp-button">
+                    <span class="futuristic-btn-text">Connect on WhatsApp <i class="fab fa-whatsapp"></i></span>
+                </a>
+            </div>
+        </form>
+        <div class="futuristic-particle"></div>
+        <div class="futuristic-particle"></div>
+        <div class="futuristic-particle"></div>
+    </div>
+</div>
+<!-- Acknowledgment Popup HTML -->
+<div class="futuristic-ack-overlay" id="ackPopup">
+    <div class="futuristic-ack-content">
+        <div class="futuristic-ack-icon">✅</div>
+        <h3>Your Request Has Been Submitted Successfully!</h3>
+        <p>Our team will contact you soon.</p>
+    </div>
+</div>
+</div>
 </body>
 </html>
 

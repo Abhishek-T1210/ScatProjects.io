@@ -555,3 +555,58 @@ document.addEventListener("DOMContentLoaded", () => {
         if (popup) popup.classList.remove('active');
     };
 });
+// Callback Popup JS - Add this to your script.js file
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Show callback popup after 10 seconds
+    setTimeout(() => {
+        const popup = document.getElementById('callbackPopup');
+        if (popup) {
+            popup.classList.add('active');
+        }
+    }, 10000);
+
+    // Form validation and submission
+    const callbackForm = document.getElementById('callbackForm');
+    if (callbackForm) {
+        callbackForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const phoneInput = document.getElementById('callbackPhone');
+            const errorSpan = document.getElementById('callbackError');
+            const phoneRegex = /^\d{10}$/;
+
+            if (!phoneRegex.test(phoneInput.value.trim())) {
+                errorSpan.textContent = 'Enter a valid 10-digit phone number';
+                errorSpan.classList.add('show');
+                phoneInput.style.borderColor = '#ef4444';
+            } else {
+                errorSpan.textContent = '';
+                errorSpan.classList.remove('show');
+                phoneInput.style.borderColor = 'transparent';
+                // Close callback popup and show acknowledgment popup
+                closeCallbackPopup();
+                showAckPopup();
+                callbackForm.reset();
+            }
+        });
+    }
+});
+
+// Close callback popup function
+function closeCallbackPopup() {
+    const popup = document.getElementById('callbackPopup');
+    if (popup) {
+        popup.classList.remove('active');
+    }
+}
+
+// Show acknowledgment popup function
+function showAckPopup() {
+    const ackPopup = document.getElementById('ackPopup');
+    if (ackPopup) {
+        ackPopup.classList.add('active');
+        setTimeout(() => {
+            ackPopup.classList.remove('active');
+        }, 3000); // Auto-close after 3 seconds
+    }
+}
