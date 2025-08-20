@@ -1,4 +1,3 @@
-// Full Contact Form JavaScript with all functionality
 document.addEventListener("DOMContentLoaded", () => {
     // Loader
     const loader = document.getElementById('loader');
@@ -6,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loader.classList.add('hidden');
-            }, 1500);
+            }, 1000);
         });
     }
 
@@ -40,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15
+            threshold: 0.3
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -116,57 +115,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ================ CONTACT FORM FUNCTIONALITY ================
-    const contactForm = document.getElementById('contactFormyy');
-    const progressBar = document.getElementById('formProgressBaryy');
-    const inputs = contactForm ? contactForm.querySelectorAll('.xxform-inputyy') : [];
+    // Contact Form Functionality
+    const contactForm = document.getElementById('contactForm');
+    const progressBar = document.getElementById('formProgressBar');
+    const inputs = contactForm ? contactForm.querySelectorAll('.form-input') : [];
 
     // Progress Bar Update Function
     function updateProgress() {
         if (!progressBar || inputs.length === 0) return;
         
-        const filled = Array.from(inputs).filter(input => {
-            const value = input.value.trim();
-            return value !== '' && value.length > 0;
-        }).length;
-        
+        const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
         const percent = (filled / inputs.length) * 100;
         progressBar.style.width = `${percent}%`;
         
-        // Add completion celebration effect
         if (percent === 100) {
-            progressBar.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+            progressBar.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
             setTimeout(() => {
-                progressBar.style.background = 'linear-gradient(90deg, #667eea, #764ba2)';
-            }, 1000);
+                progressBar.style.background = 'linear-gradient(90deg, #4f46e5, #7c3aed)';
+            }, 800);
         }
     }
 
-    // Input focus and blur handlers for enhanced UX
+    // Input focus and blur handlers
     function handleInputFocus(event) {
-        const formGroup = event.target.closest('.xxform-groupyy');
+        const formGroup = event.target.closest('.form-group');
         if (formGroup) {
             formGroup.classList.add('focused');
             const label = formGroup.querySelector('.form-label');
             if (label) {
-                label.style.color = '#667eea';
-                label.style.transform = 'scale(1.05)';
+                label.style.color = '#4f46e5';
+                label.style.transform = 'scale(1.02)';
             }
         }
     }
 
     function handleInputBlur(event) {
-        const formGroup = event.target.closest('.xxform-groupyy');
+        const formGroup = event.target.closest('.form-group');
         if (formGroup) {
             formGroup.classList.remove('focused');
             const label = formGroup.querySelector('.form-label');
             if (label) {
-                label.style.color = '#4a5568';
+                label.style.color = '#475569';
                 label.style.transform = 'scale(1)';
             }
         }
-        
-        // Validate field on blur
         validateField(event.target);
     }
 
@@ -174,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function validateField(field) {
         const fieldId = field.id;
         const value = field.value.trim();
-        const errorSpan = field.parentElement.querySelector('.xxform-erroryy');
+        const errorSpan = field.parentElement.querySelector('.form-error');
         
         if (!errorSpan) return true;
         
@@ -183,10 +175,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         switch(fieldId) {
             case 'name':
-                const nameRegex = /^[a-zA-Z\s]{2,}$/;
+                const nameRegex = /^[a-zA-Z\s]{3,}$/;
                 if (!nameRegex.test(value)) {
                     isValid = false;
-                    errorMessage = 'Invalid name: Use letters and spaces only, minimum 2 characters';
+                    errorMessage = 'Name must be at least 3 characters';
                 }
                 break;
             
@@ -194,71 +186,69 @@ document.addEventListener("DOMContentLoaded", () => {
                 const phoneRegex = /^\d{10}$/;
                 if (!phoneRegex.test(value)) {
                     isValid = false;
-                    errorMessage = 'Invalid phone number: Must be 10 digits';
+                    errorMessage = 'Enter a valid 10-digit phone number';
                 }
                 break;
             
             case 'branch':
-                const branchRegex = /^[a-zA-Z\s]{2,}$/;
+                const branchRegex = /^[a-zA-Z\s]{3,}$/;
                 if (!branchRegex.test(value)) {
                     isValid = false;
-                    errorMessage = 'Invalid branch: Use letters and spaces only, minimum 2 characters';
+                    errorMessage = 'Branch name must be at least 3 characters';
                 }
                 break;
             
             case 'project':
-                if (value === '' || value.length < 10) {
+                if (value.length < 10) {
                     isValid = false;
-                    errorMessage = 'Project description must be at least 10 characters';
+                    errorMessage = 'Description must be at least 10 characters';
                 }
                 break;
         }
 
         if (isValid) {
             errorSpan.textContent = '';
-            errorSpan.style.display = 'none';
             errorSpan.classList.remove('show');
-            field.style.borderColor = '#10b981';
+            field.style.borderColor = '#22c55e';
         } else {
             errorSpan.textContent = errorMessage;
-            errorSpan.style.display = 'block';
             errorSpan.classList.add('show');
-            field.style.borderColor = '#e53e3e';
+            field.style.borderColor = '#ef4444';
         }
 
         return isValid;
     }
 
-    // Add input event listeners for all form enhancements
+    // Add event listeners
     inputs.forEach(input => {
         input.addEventListener('input', updateProgress);
         input.addEventListener('focus', handleInputFocus);
         input.addEventListener('blur', handleInputBlur);
     });
 
-    // Stagger animations
-    const contactDetails = document.querySelectorAll('.xxcontact-detailyy');
+    // Animation delays
+    const contactDetails = document.querySelectorAll('.contact-detail');
     contactDetails.forEach((detail, index) => {
-        detail.style.animationDelay = `${index * 0.2 + 0.5}s`;
+        detail.style.animationDelay = `${index * 0.15 + 0.4}s`;
     });
 
-    const formGroups = document.querySelectorAll('.xxform-groupyy');
+    const formGroups = document.querySelectorAll('.form-group');
     formGroups.forEach((group, index) => {
-        group.style.animationDelay = `${index * 0.1 + 0.3}s`;
+        group.style.animationDelay = `${index * 0.1 + 0.2}s`;
     });
 
-    // Particle effect creation
+    // Particle effect
     function createParticleEffect(button) {
         const rect = button.getBoundingClientRect();
-        const particles = 15;
+        const particles = 10;
         
         for (let i = 0; i < particles; i++) {
             const particle = document.createElement('div');
             particle.style.position = 'fixed';
-            particle.style.left = rect.left + rect.width / 2 + 'px';
-            particle.style.top = rect.top + rect.height / 2 + 'px';
-            particle.style.width = '4px';
-            particle.style.height = '4px';
+            particle.style.left = `${rect.left + rect.width / 2}px`;
+            particle.style.top = `${rect.top + rect.height / 2}px`;
+            particle.style.width = '3px';
+            particle.style.height = '3px';
             particle.style.background = '#ffffff';
             particle.style.borderRadius = '50%';
             particle.style.pointerEvents = 'none';
@@ -267,8 +257,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.appendChild(particle);
             
             const angle = (Math.PI * 2 * i) / particles;
-            const velocity = 2;
-            const distance = 100;
+            const velocity = 1.5;
+            const distance = 80;
             
             const targetX = Math.cos(angle) * distance;
             const targetY = Math.sin(angle) * distance;
@@ -277,94 +267,70 @@ document.addEventListener("DOMContentLoaded", () => {
                 { transform: 'translate(0, 0) scale(1)', opacity: 1 },
                 { transform: `translate(${targetX}px, ${targetY}px) scale(0)`, opacity: 0 }
             ], {
-                duration: 1000,
+                duration: 800,
                 easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }).addEventListener('finish', () => {
-                document.body.removeChild(particle);
-            });
+            }).addEventListener('finish', () => particle.remove());
         }
     }
 
-    // Form submission handler
+    // Form submission
     if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
+        contactForm.addEventListener('submit', event => {
             event.preventDefault();
             
-            if (validateFormyy()) {
+            if (validateForm()) {
                 handleFormSubmission();
             } else {
-                // Shake form on validation error
-                contactForm.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    contactForm.style.animation = '';
-                }, 500);
+                contactForm.style.animation = 'shake 0.4s ease-in-out';
+                setTimeout(() => contactForm.style.animation = '', 400);
             }
         });
     }
 
-    // Handle form submission with enhanced effects
     function handleFormSubmission() {
-        const submitBtn = contactForm.querySelector('.xxform-submityy');
+        const submitBtn = contactForm.querySelector('.form-submit');
         if (!submitBtn) return;
 
-        // Add loading state
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
-        // Create particle effect
         createParticleEffect(submitBtn);
 
-        // Simulate form submission
         setTimeout(() => {
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
             
-            // Show success popup
-            showPopupyy('Thank you for your interest! We\'ll contact you within 24 hours to discuss your project.');
+            showPopup('Your request has been submitted successfully. Our team will contact you shortly.');
             
-            // Reset form
             contactForm.reset();
             updateProgress();
             
-            // Clear all error messages and reset field styles
-            const errorSpans = document.querySelectorAll('.xxform-erroryy');
+            const errorSpans = document.querySelectorAll('.form-error');
             errorSpans.forEach(span => {
                 span.textContent = '';
-                span.style.display = 'none';
                 span.classList.remove('show');
             });
 
-            inputs.forEach(input => {
-                input.style.borderColor = '#e2e8f0';
-            });
+            inputs.forEach(input => input.style.borderColor = '#e5e7eb');
 
-            // Success animation for submit button
-            submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            submitBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
             setTimeout(() => {
-                submitBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-            }, 2000);
+                submitBtn.style.background = 'linear-gradient(135deg, #4f46e5, #7c3aed)';
+            }, 1500);
             
-        }, 1500);
+        }, 1200);
     }
 
-    // Form validation function
-    function validateFormyy() {
+    function validateForm() {
         let valid = true;
-        const errorSpans = document.querySelectorAll('.xxform-erroryy');
-        
-        // Clear all previous errors
+        const errorSpans = document.querySelectorAll('.form-error');
         errorSpans.forEach(span => {
             span.textContent = '';
-            span.style.display = 'none';
             span.classList.remove('show');
         });
 
-        // Reset all field border colors
-        inputs.forEach(input => {
-            input.style.borderColor = '#e2e8f0';
-        });
+        inputs.forEach(input => input.style.borderColor = '#e5e7eb');
 
-        // Validate each field
         const nameInput = document.getElementById('name');
         const phoneInput = document.getElementById('phone');
         const branchInput = document.getElementById('branch');
@@ -378,29 +344,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return valid;
     }
 
-    // Show popup function
-    function showPopupyy(message) {
-        const popup = document.getElementById('popupyy');
+    function showPopup(message) {
+        const popup = document.getElementById('popup');
         if (popup) {
             const popupMessage = popup.querySelector('p');
-            if (popupMessage) {
-                popupMessage.textContent = message;
-            }
+            if (popupMessage) popupMessage.textContent = message;
             popup.classList.add('active');
         }
     }
 
-    // Close popup function (global function)
-    window.closePopupyy = function() {
-        const popup = document.getElementById('popupyy');
-        if (popup) {
-            popup.classList.remove('active');
-        }
+    window.closePopup = function() {
+        const popup = document.getElementById('popup');
+        if (popup) popup.classList.remove('active');
     };
 
-    // Add typing effect for placeholders (optional enhancement)
+    // Typing effect for placeholders
     function addTypingEffect() {
-        const typingInputs = document.querySelectorAll('.xxform-inputyy[placeholder]');
+        const typingInputs = document.querySelectorAll('.form-input[placeholder]');
         
         typingInputs.forEach(input => {
             const originalPlaceholder = input.getAttribute('placeholder');
@@ -412,12 +372,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     currentPlaceholder += originalPlaceholder[index];
                     input.setAttribute('placeholder', currentPlaceholder);
                     index++;
-                    setTimeout(typePlaceholder, 100);
+                    setTimeout(typePlaceholder, 120);
                 }
             }
             
-            // Start typing effect when input comes into view
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         setTimeout(() => {
@@ -425,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             currentPlaceholder = '';
                             index = 0;
                             typePlaceholder();
-                        }, 500);
+                        }, 400);
                         observer.unobserve(input);
                     }
                 });
@@ -435,6 +394,164 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Initialize typing effect
     addTypingEffect();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const animatedElements = document.querySelectorAll('[data-animate]');
+    if (animatedElements.length > 0 && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const animation = element.dataset.animate;
+                    const delay = element.dataset.delay || '0s';
+                    element.style.animation = `${animation} 0.6s ease ${delay} forwards`;
+                    observer.unobserve(element);
+                }
+            });
+        }, { root: null, rootMargin: '0px', threshold: 0.2 });
+
+        animatedElements.forEach(element => observer.observe(element));
+    }
+
+    const contactForm = document.getElementById('contactForm');
+    const progressBar = document.getElementById('formProgressBar');
+    const inputs = contactForm ? contactForm.querySelectorAll('.form-input') : [];
+
+    function updateProgress() {
+        if (!progressBar || inputs.length === 0) return;
+        
+        const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
+        const percent = (filled / inputs.length) * 100;
+        progressBar.style.width = `${percent}%`;
+    }
+
+    function validateField(field) {
+        const fieldId = field.id;
+        const value = field.value.trim();
+        const errorSpan = field.parentElement.querySelector('.form-error');
+        
+        if (!errorSpan) return true;
+        
+        let isValid = true;
+        let errorMessage = '';
+
+        switch(fieldId) {
+            case 'name':
+                const nameRegex = /^[a-zA-Z\s]{3,}$/;
+                if (!nameRegex.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Name must be at least 3 characters';
+                }
+                break;
+            
+            case 'phone':
+                const phoneRegex = /^\d{10}$/;
+                if (!phoneRegex.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Enter a valid 10-digit phone number';
+                }
+                break;
+            
+            case 'branch':
+                const branchRegex = /^[a-zA-Z\s]{3,}$/;
+                if (!branchRegex.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Branch name must be at least 3 characters';
+                }
+                break;
+            
+            case 'project':
+                if (value.length < 10) {
+                    isValid = false;
+                    errorMessage = 'Description must be at least 10 characters';
+                }
+                break;
+        }
+
+        if (isValid) {
+            errorSpan.textContent = '';
+            errorSpan.classList.remove('show');
+            field.style.borderColor = 'var(--gray-300)';
+        } else {
+            errorSpan.textContent = errorMessage;
+            errorSpan.classList.add('show');
+            field.style.borderColor = 'var(--error)';
+        }
+
+        return isValid;
+    }
+
+    function validateForm() {
+        let valid = true;
+        const errorSpans = document.querySelectorAll('.form-error');
+        errorSpans.forEach(span => {
+            span.textContent = '';
+            span.classList.remove('show');
+        });
+
+        inputs.forEach(input => input.style.borderColor = 'var(--gray-300)');
+
+        const nameInput = document.getElementById('name');
+        const phoneInput = document.getElementById('phone');
+        const branchInput = document.getElementById('branch');
+        const projectInput = document.getElementById('project');
+
+        if (nameInput && !validateField(nameInput)) valid = false;
+        if (phoneInput && !validateField(phoneInput)) valid = false;
+        if (branchInput && !validateField(branchInput)) valid = false;
+        if (projectInput && !validateField(projectInput)) valid = false;
+
+        return valid;
+    }
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', event => {
+            event.preventDefault();
+            
+            if (validateForm()) {
+                const submitBtn = contactForm.querySelector('.form-submit');
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                    contactForm.reset();
+                    updateProgress();
+                    showPopup();
+                }, 1200);
+            }
+        });
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            updateProgress();
+            validateField(input);
+        });
+        input.addEventListener('focus', () => {
+            input.parentElement.querySelector('.input-icon').style.color = 'var(--primary)';
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.querySelector('.input-icon').style.color = 'var(--gray-500)';
+            validateField(input);
+        });
+    });
+
+    function showPopup() {
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.classList.add('active');
+            setTimeout(() => {
+                popup.classList.remove('active');
+            }, 4000);
+        }
+    }
+
+    window.closePopup = function() {
+        const popup = document.getElementById('popup');
+        if (popup) popup.classList.remove('active');
+    };
 });

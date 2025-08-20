@@ -617,37 +617,34 @@
             </a>
         </div>
     </section>
-
-   <section class="contact" id="contact">
+    
+<section class="contact" id="contact">
     <div class="contact-container">
-        <div class="contact-info animate-on-scroll">
+        <div class="contact-info" data-animate="fadeIn">
             <div class="info-header">
-                <h2>Let's Build Something Amazing Together</h2>
-                <p class="contact-subtitle">Ready to turn your project idea into reality? Share your details and let's start the conversation!</p>
+                <h2>Connect With Us</h2>
+                <p class="contact-subtitle">Ready to bring your ideas to life? Let's start building your project !</p>
             </div>
-            
             <div class="contact-details">
-                <div class="xxcontact-detailyy">
+                <div class="contact-detail" data-animate="fadeInLeft" data-delay="0.2s">
                     <div class="contact-icon">
                         <i class="fas fa-phone-alt"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Call Us</h4>
+                        <h4>Phone</h4>
                         <p><a href="tel:+919819833605">+91 98198 33605</a></p>
                     </div>
                 </div>
-                
-                <div class="xxcontact-detailyy">
+                <div class="contact-detail" data-animate="fadeInLeft" data-delay="0.4s">
                     <div class="contact-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Email Us</h4>
+                        <h4>Email</h4>
                         <p><a href="mailto:avt.tiwari12@gmail.com">avt.tiwari12@gmail.com</a></p>
                     </div>
                 </div>
-                
-                <div class="xxcontact-detailyy">
+                <div class="contact-detail" data-animate="fadeInLeft" data-delay="0.6s">
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
@@ -657,82 +654,84 @@
                     </div>
                 </div>
             </div>
-
             <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link" data-animate="fadeIn" data-delay="0.8s"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link" data-animate="fadeIn" data-delay="0.9s"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link" data-animate="fadeIn" data-delay="1.0s"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link" data-animate="fadeIn" data-delay="1.1s"><i class="fab fa-github"></i></a>
             </div>
         </div>
-
-        <div class="contact-form-container animate-on-scroll">
+        <div class="contact-form-container" data-animate="fadeIn" data-delay="0.2s">
             <div class="form-header">
-                <h3>Start Your Project</h3>
+                <h3>Send Us Your Requirements</h3>
+                <p class="form-subtitle">Share your project requirements, and we’ll bring them to life.</p>
                 <div class="form-progress-container">
-                    <div class="form-progress-bar" id="formProgressBaryy"></div>
+                    <div class="form-progress-bar" id="formProgressBar"></div>
                 </div>
             </div>
-
-            <form class="contact-form" id="contactFormyy">
-                <div class="xxform-groupyy">
-                    <label for="name" class="form-label">
-                        <i class="fas fa-user"></i>
-                        Student Name
-                    </label>
-                    <input type="text" id="name" class="xxform-inputyy" placeholder="Enter your full name" required>
-                    <span class="xxform-erroryy"></span>
-                </div>
-
-                <div class="form-row">
-                    <div class="xxform-groupyy">
-                        <label for="phone" class="form-label">
-                            <i class="fas fa-phone"></i>
-                            Phone Number
-                        </label>
-                        <input type="tel" id="phone" class="xxform-inputyy" placeholder="10-digit mobile number" required>
-                        <span class="xxform-erroryy"></span>
-                    </div>
-
-                    <div class="xxform-groupyy">
-                        <label for="branch" class="form-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            Branch/Stream
-                        </label>
-                        <input type="text" id="branch" class="xxform-inputyy" placeholder="e.g., Computer Science" required>
-                        <span class="xxform-erroryy"></span>
-                    </div>
-                </div>
-
-                <div class="xxform-groupyy">
-                    <label for="project" class="form-label">
-                        <i class="fas fa-lightbulb"></i>
-                        Project Topic/Idea
-                    </label>
-                    <textarea id="project" class="xxform-inputyy form-textarea" placeholder="Describe your project idea, requirements, or topic..." rows="4" required></textarea>
-                    <span class="xxform-erroryy"></span>
-                </div>
-
-                <button type="submit" class="xxform-submityy">
-                    <span class="btn-text">Get Started</span>
-                    <span class="btn-loader">
-                        <i class="fas fa-spinner"></i>
-                    </span>
-                    <div class="btn-particles"></div>
-                </button>
-            </form>
+           <form class="contact-form" id="contactForm">
+    <div class="form-row">
+        <div class="form-group" data-animate="fadeInUp">
+            <label for="name" class="form-label">Full Name</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+            </div>
+            <span class="form-error"></span>
+        </div>
+        <div class="form-group" data-animate="fadeInUp" data-delay="0.1s">
+            <label for="phone" class="form-label">Phone Number</label>
+            <div class="input-wrapper">
+                <i class="fas fa-phone-alt input-icon"></i>
+                <input type="tel" id="phone" class="form-input" placeholder="Your 10-digit number" required>
+            </div>
+            <span class="form-error"></span>
         </div>
     </div>
+    <div class="form-group" data-animate="fadeInUp" data-delay="0.2s">
+        <label for="branch" class="form-label">Branch / Stream</label>
+        <div class="input-wrapper">
+            <i class="fas fa-graduation-cap input-icon"></i>
+            <input type="text" id="branch" class="form-input" placeholder="e.g., Computer Engineering" required>
+        </div>
+        <span class="form-error"></span>
+    </div>
+    <div class="form-group" data-animate="fadeInUp" data-delay="0.3s">
+        <label for="project" class="form-label">Project Details</label>
+        <div class="input-wrapper">
+            <i style ="top: 36%;" class="fas fa-lightbulb input-icon"></i>
+            <textarea id="project" class="form-input form-textarea" placeholder="Describe the project you want us to build..." rows="4" required></textarea>
+        </div>
+        <span class="form-error"></span>
+    </div>
+    <div class="form-buttons">
+        <button type="submit" class="form-submit" data-animate="fadeInUp" data-delay="0.4s">
+            <span class="btn-text">Request Project <img src="media/telegram.png" alt=""></span>
+            <span class="btn-loader"><i class="fas fa-spinner"></i></span>
+        </button>
+  <a href="https://wa.me/919819833605?text=I%20want%20to%20order%20a%20project"
+   class="whatsapp-button" 
+   data-animate="fadeInUp" 
+   data-delay="0.5s" 
+   target="_blank" 
+   rel="noopener noreferrer">
+    <i class="fab fa-whatsapp"></i>
+    <span>Order via WhatsApp</span>
+</a>
 
-    <!-- Success Popup -->
-    <div class="popup-overlay" id="popupyy">
+    </div>
+</form>
+
+        </div>
+    </div>
+    <div class="popup-overlay" id="popup">
         <div class="popup-content">
             <div class="popup-icon">
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-rocket"></i>
             </div>
-            <h3>Message Sent Successfully!</h3>
-            <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
-            <button class="popup-close" onclick="closePopupyy()">Close</button>
+            <h3>Message Sent!</h3>
+            <p>Your idea is on its way! We'll respond within 24 hours.</p>
+            <button class="popup-close" onclick="closePopup()">Close</button>
         </div>
     </div>
 </section>
