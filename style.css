@@ -935,7 +935,7 @@
 }
 /* Portfolio Base Styles */
 .portfolio {
-    padding: 5rem 2rem;
+    padding: 3rem 2rem;
     background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
     position: relative;
     overflow: hidden;
