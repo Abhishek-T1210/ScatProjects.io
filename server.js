@@ -49,7 +49,23 @@ app.use(express.static(__dirname));
 app.post('/callback', callbackLimiter, async (req, res) => {
   console.log('📥 Received /callback request:', req.body);
   try {
-    const data = req.body; // Expecting { phone, timestamp, formType }
+    const { phone, timestamp, formType } = req.body;
+
+    // Validate inputs
+    if (!phone || !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid phone: Must be a 10-digit number',
+      });
+    }
+    if (!formType || formType !== 'callback') {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid formType: Must be "callback"',
+      });
+    }
+
+    const data = { formType, phone, timestamp };
     console.log(`➡️ Sending /callback request to API:`, data);
     const response = await fetch(CALLBACK_API_URL, {
       method: 'POST',
@@ -67,7 +83,7 @@ app.post('/callback', callbackLimiter, async (req, res) => {
       throw new Error(result.message || `Callback API failed [${response.status}]`);
     }
 
-    console.log(`✅ Success: Callback data sent for phone ${data.phone || 'unknown'}`);
+    console.log(`✅ Success: Callback data sent for phone ${phone || 'unknown'}`);
     res.status(200).json(result);
   } catch (error) {
     console.error('❌ Callback Error:', error.message, error.stack);
@@ -79,8 +95,41 @@ app.post('/callback', callbackLimiter, async (req, res) => {
 app.post('/project', projectLimiter, async (req, res) => {
   console.log('📥 Received /project request:', req.body);
   try {
-    const { name, phone, branch, project, timestamp } = req.body;
-    const data = { formType: 'project', name, phone, branch, project, timestamp };
+    const { name, phone, branch, project, timestamp, formType } = req.body;
+
+    // Validate inputs
+    if (!name || !/^[a-zA-Z\s]{3,}$/.test(name.trim())) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Name must be at least 3 alphabetic characters',
+      });
+    }
+    if (!phone || !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid phone: Must be a 10-digit number',
+      });
+    }
+    if (!branch || !/^[a-zA-Z\s]{3,}$/.test(branch.trim())) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Branch must be at least 3 alphabetic characters',
+      });
+    }
+    if (!project || project.trim().length < 10) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Project description must be at least 10 characters',
+      });
+    }
+    if (!formType || formType !== 'project') {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid formType: Must be "project"',
+      });
+    }
+
+    const data = { formType, name, phone, branch, project, timestamp };
     console.log(`➡️ Sending /project request to API:`, data);
     const response = await fetch(PROJECT_API_URL, {
       method: 'POST',

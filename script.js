@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Backend URL configuration (use environment variable or fallback to local)
-    const BASE_URL = window.location.hostname === 'localhost' 
-        ? 'http://localhost:3001' 
-        : 'https://scatprojects-io.onrender.com'; // Replace with your production backend URL
+    // Backend URL configuration
+    const BASE_URL = window.location.hostname === 'localhost'
+        ? 'http://localhost:3001'
+        : 'https://scatprojects-io.onrender.com';
 
     // Loader
     const loader = document.getElementById('loader');
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function validateField(field) {
         const fieldId = field.id;
         const value = field.value.trim();
-        const errorSpan = field.parentElement.querySelector('.form-error');
+        const errorSpan = field.parentElement.parentElement.querySelector('.form-error');
         if (!errorSpan) return true;
 
         let isValid = true;
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'name':
                 if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
                     isValid = false;
-                    errorMessage = 'Name must be at least 3 characters';
+                    errorMessage = 'Name must be at least 3 alphabetic characters';
                 }
                 break;
             case 'phone':
@@ -181,13 +181,13 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'branch':
                 if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
                     isValid = false;
-                    errorMessage = 'Branch name must be at least 3 characters';
+                    errorMessage = 'Branch must be at least 3 alphabetic characters';
                 }
                 break;
             case 'project':
                 if (value.length < 10) {
                     isValid = false;
-                    errorMessage = 'Description must be at least 10 characters';
+                    errorMessage = 'Project description must be at least 10 characters';
                 }
                 break;
         }
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validateForm() {
         let valid = true;
-        const errorSpans = document.querySelectorAll('.form-error');
+        const errorSpans = contactForm.querySelectorAll('.form-error');
         errorSpans.forEach(span => {
             span.textContent = '';
             span.classList.remove('show');
@@ -262,6 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (validateForm()) {
                 const submitBtn = contactForm.querySelector('.form-submit');
+                if (!submitBtn) {
+                    console.error('Submit button not found');
+                    return;
+                }
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
@@ -303,24 +307,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     const result = await response.json();
-
-                    if (response.ok) {
-                        showPopup('Your project request has been submitted successfully. Our team will contact you shortly.');
-                        contactForm.reset();
-                        updateProgress();
-                        document.querySelectorAll('.form-error').forEach(span => {
-                            span.textContent = '';
-                            span.classList.remove('show');
-                        });
-                        inputs.forEach(input => input.style.borderColor = '#e5e7eb');
-                    } else {
-                        throw new Error(result.message || 'Failed to submit project request. Please try again.');
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Failed to submit project request');
                     }
+
+                    contactForm.reset();
+                    updateProgress();
+                    showPopup();
+                    document.querySelectorAll('.form-error').forEach(span => {
+                        span.textContent = '';
+                        span.classList.remove('show');
+                    });
+                    inputs.forEach(input => input.style.borderColor = '#e5e7eb');
                 } catch (error) {
                     console.error('Project Form Error:', error);
-                    const errorSpan = document.getElementById('project').parentElement.querySelector('.form-error');
-                    errorSpan.textContent = error.message || 'Failed to submit project request. Please try again.';
-                    errorSpan.classList.add('show');
+                    const errorSpan = document.getElementById('name').parentElement.parentElement.querySelector('.form-error');
+                    if (errorSpan) {
+                        errorSpan.textContent = error.message || 'Failed to submit project request. Please try again.';
+                        errorSpan.classList.add('show');
+                    }
+                    inputs.forEach(input => input.style.borderColor = '#ef4444');
                 } finally {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
@@ -346,11 +352,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function showPopup(message) {
+    function showPopup() {
         const popup = document.getElementById('popup');
         if (popup) {
-            const popupMessage = popup.querySelector('p');
-            if (popupMessage) popupMessage.textContent = message;
             popup.classList.add('active');
             setTimeout(() => popup.classList.remove('active'), 4000);
         }
@@ -360,43 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const popup = document.getElementById('popup');
         if (popup) popup.classList.remove('active');
     };
-
-    // Typing effect for placeholders
-    function addTypingEffect() {
-        const typingInputs = document.querySelectorAll('.form-input[placeholder]');
-        typingInputs.forEach(input => {
-            const originalPlaceholder = input.getAttribute('placeholder');
-            let currentPlaceholder = '';
-            let index = 0;
-
-            function typePlaceholder() {
-                if (index < originalPlaceholder.length) {
-                    currentPlaceholder += originalPlaceholder[index];
-                    input.setAttribute('placeholder', currentPlaceholder);
-                    index++;
-                    setTimeout(typePlaceholder, 120);
-                }
-            }
-
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            input.setAttribute('placeholder', '');
-                            currentPlaceholder = '';
-                            index = 0;
-                            typePlaceholder();
-                        }, 400);
-                        observer.unobserve(input);
-                    }
-                });
-            });
-
-            observer.observe(input);
-        });
-    }
-
-    addTypingEffect();
 
     // Callback Form Functionality
     const callbackForm = document.getElementById('callbackForm');
@@ -415,6 +382,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const loader = document.getElementById('callbackLoader');
             const submitBtn = callbackForm.querySelector('.futuristic-form-submit');
             const phoneRegex = /^\d{10}$/;
+
+            if (!phoneInput || !errorSpan || !submitBtn) {
+                console.error('Callback form elements missing');
+                return;
+            }
 
             // Validate phone number
             if (!phoneRegex.test(phoneInput.value.trim())) {
@@ -460,9 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const response = await fetch(`${BASE_URL}/callback`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
 
@@ -472,18 +442,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 const result = await response.json();
-
-                if (response.ok) {
-                    closeCallbackPopup();
-                    showAckPopup();
-                    callbackForm.reset();
-                } else {
+                if (!response.ok) {
                     throw new Error(result.message || 'Failed to submit callback request');
                 }
+
+                closeCallbackPopup();
+                showAckPopup();
+                callbackForm.reset();
             } catch (error) {
                 console.error('Callback Form Error:', error);
-                errorSpan.textContent = error.message || 'Failed to submit callback request. Please try again.';
-                errorSpan.classList.add('show');
+                if (errorSpan) {
+                    errorSpan.textContent = error.message || 'Failed to submit callback request. Please try again.';
+                    errorSpan.classList.add('show');
+                }
                 phoneInput.style.borderColor = '#ef4444';
             } finally {
                 submitBtn.disabled = false;
@@ -496,11 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.closeCallbackPopup = function() {
-        const popup = document.getElementById('callbackPopup');
-        if (popup) {
-            popup.classList.remove('active');
+        const callbackPopup = document.getElementById('callbackPopup');
+        if (callbackPopup) {
+            callbackPopup.classList.remove('active');
         }
-    }
+    };
 
     function showAckPopup() {
         const ackPopup = document.getElementById('ackPopup');
@@ -508,7 +479,44 @@ document.addEventListener("DOMContentLoaded", () => {
             ackPopup.classList.add('active');
             setTimeout(() => {
                 ackPopup.classList.remove('active');
-            }, 3000);
+            }, 4000);
         }
     }
+
+    // Typing effect for placeholders
+    function addTypingEffect() {
+        const typingInputs = document.querySelectorAll('.form-input[placeholder]');
+        typingInputs.forEach(input => {
+            const originalPlaceholder = input.getAttribute('placeholder');
+            let currentPlaceholder = '';
+            let index = 0;
+
+            function typePlaceholder() {
+                if (index < originalPlaceholder.length) {
+                    currentPlaceholder += originalPlaceholder[index];
+                    input.setAttribute('placeholder', currentPlaceholder);
+                    index++;
+                    setTimeout(typePlaceholder, 120);
+                }
+            }
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            input.setAttribute('placeholder', '');
+                            currentPlaceholder = '';
+                            index = 0;
+                            typePlaceholder();
+                        }, 400);
+                        observer.unobserve(input);
+                    }
+                });
+            });
+
+            observer.observe(input);
+        });
+    }
+
+    addTypingEffect();
 });
