@@ -44,11 +44,11 @@ async function processQueue() {
         throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
       }
 
-      console.log(`✅ [${id}] Success: Data written to ${data.formType} sheet for phone ${data.phone}`);
+      console.log(`✅ [${id}] Success: Data written to ${data.formType} sheet for phone ${data.phone || 'unknown'}`);
       resolve(result);
     } catch (error) {
       console.error(`❌ [${id}] Queue Error for ${data.formType}:`, {
-        phone: data.phone,
+        phone: data.phone || 'unknown',
         error: error.message,
         stack: error.stack,
       });
@@ -87,23 +87,11 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
-// Callback Route
+// Callback Route (validations removed)
 app.post('/callback', async (req, res) => {
   console.log('📥 Received /callback request:', req.body);
   try {
     const { phone, timestamp } = req.body;
-    if (!phone || !timestamp) {
-      return res.status(400).json({ status: 'error', message: 'Phone and timestamp are required' });
-    }
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid phone number: Must be a 10-digit number' });
-    }
-    const timestampRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (AM|PM)$/;
-    if (!timestampRegex.test(timestamp)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid timestamp: Must be YYYY-MM-DD hh:mm AM/PM' });
-    }
-
     const id = requestIdCounter++;
     const promise = new Promise((resolve, reject) => {
       requestQueue.push({ id, data: { phone, timestamp, formType: 'callback' }, resolve, reject });
@@ -117,34 +105,11 @@ app.post('/callback', async (req, res) => {
   }
 });
 
-// Project Route (unchanged except for improved error handling)
+// Project Route (validations removed)
 app.post('/project', async (req, res) => {
   console.log('📥 Received /project request:', req.body);
   try {
     const { name, phone, branch, project, timestamp } = req.body;
-    if (!name || !phone || !branch || !project || !timestamp) {
-      return res.status(400).json({ status: 'error', message: 'Name, phone, branch, project, and timestamp are required' });
-    }
-    const nameRegex = /^[a-zA-Z\s]{3,}$/;
-    if (!nameRegex.test(name)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid name: Must be at least 3 alphabetic characters' });
-    }
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid phone number: Must be exactly 10 digits' });
-    }
-    const branchRegex = /^[a-zA-Z\s]{3,}$/;
-    if (!branchRegex.test(branch)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid branch: Must be at least 3 alphabetic characters' });
-    }
-    if (project.length < 10) {
-      return res.status(400).json({ status: 'error', message: 'Project description must be at least 10 characters' });
-    }
-    const timestampRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (AM|PM)$/;
-    if (!timestampRegex.test(timestamp)) {
-      return res.status(400).json({ status: 'error', message: 'Invalid timestamp: Must be YYYY-MM-DD hh:mm AM/PM' });
-    }
-
     const data = { formType: 'project', name, phone, branch, project, timestamp };
     console.log(`➡️ Sending /project request to new API:`, data);
     const response = await fetch(PROJECT_API_URL, {
@@ -168,7 +133,7 @@ app.post('/project', async (req, res) => {
       throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
     }
 
-    console.log(`✅ Success: Data sent to new API for phone ${phone}`);
+    console.log(`✅ Success: Data sent to new API for phone ${phone || 'unknown'}`);
     res.json(result);
   } catch (error) {
     console.error('❌ Project Error:', error.message, error.stack);
