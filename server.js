@@ -147,7 +147,7 @@ app.post('/project', async (req, res) => {
     console.log(`✅ Success: Data sent to new API for phone ${phone || 'unknown'}`);
     res.json(result);
   } catch (error) {
-    console.error('❌ Project Error:', error.message, error.stack);
+    console.error('❌ Project Error :', error.message, error.stack);
     res.status(500).json({ status: 'error', message: error.message });
   }
 });
