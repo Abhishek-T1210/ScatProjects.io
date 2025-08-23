@@ -87,11 +87,19 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
-// Callback Route (validations removed)
+// Callback Route (add timestamp dynamically)
 app.post('/callback', async (req, res) => {
   console.log('📥 Received /callback request:', req.body);
   try {
-    const { phone, timestamp } = req.body;
+    const { phone } = req.body;
+    const timestamp = new Date().toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }).replace(/,/, ''); // Format: YYYY-MM-DD hh:mm AM/PM
     const id = requestIdCounter++;
     const promise = new Promise((resolve, reject) => {
       requestQueue.push({ id, data: { phone, timestamp, formType: 'callback' }, resolve, reject });
