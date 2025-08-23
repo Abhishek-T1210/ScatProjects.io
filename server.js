@@ -7,6 +7,9 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+// API URLs
+const CALLBACK_API_URL = 'https://script.google.com/macros/s/AKfycbxI1dVbFZ7w-Tm8WpKWY5eDFaqv7M3sqJ93aezQQ-0FH3cucoe4Z2xIiHfOE6aeKQmc/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
 // Enable trust proxy to handle X-Forwarded-For header
@@ -20,12 +23,18 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Rate Limits for project endpoint
-app.use('/project', rateLimit({
-  windowMs: 15 * 60 * 1000,
+// Rate Limits for endpoints
+const callbackLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: { status: 'error', message: 'Too many callback requests, please try again later.' },
+});
+
+const projectLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
   message: { status: 'error', message: 'Too many project requests, please try again later.' },
-}));
+});
 
 // Serve index.html for root route
 app.get('/', (req, res) => {
@@ -36,13 +45,43 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
-// Project Route (validations removed)
-app.post('/project', async (req, res) => {
+// Callback Route
+app.post('/callback', callbackLimiter, async (req, res) => {
+  console.log('📥 Received /callback request:', req.body);
+  try {
+    const data = req.body; // Expecting { phone, timestamp, formType }
+    console.log(`➡️ Sending /callback request to API:`, data);
+    const response = await fetch(CALLBACK_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Server returned non-JSON response');
+    }
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.message || `Callback API failed [${response.status}]`);
+    }
+
+    console.log(`✅ Success: Callback data sent for phone ${data.phone || 'unknown'}`);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('❌ Callback Error:', error.message, error.stack);
+    res.status(500).json({ status: 'error', message: error.message || 'Failed to submit callback request' });
+  }
+});
+
+// Project Route
+app.post('/project', projectLimiter, async (req, res) => {
   console.log('📥 Received /project request:', req.body);
   try {
     const { name, phone, branch, project, timestamp } = req.body;
     const data = { formType: 'project', name, phone, branch, project, timestamp };
-    console.log(`➡️ Sending /project request to new API:`, data);
+    console.log(`➡️ Sending /project request to API:`, data);
     const response = await fetch(PROJECT_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -51,7 +90,7 @@ app.post('/project', async (req, res) => {
 
     const rawText = await response.text();
     if (!response.ok) {
-      throw new Error(`New API failed [${response.status}]: ${rawText.substring(0, 200)}`);
+      throw new Error(`Project API failed [${response.status}]: ${rawText.substring(0, 200)}`);
     }
 
     let result;
@@ -64,7 +103,7 @@ app.post('/project', async (req, res) => {
       throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
     }
 
-    console.log(`✅ Success: Data sent to new API for phone ${phone || 'unknown'}`);
+    console.log(`✅ Success: Project data sent for phone ${phone || 'unknown'}`);
     res.json(result);
   } catch (error) {
     console.error('❌ Project Error:', error.message, error.stack);
@@ -72,6 +111,7 @@ app.post('/project', async (req, res) => {
   }
 });
 
+// Health Check Route
 app.get('/health', (req, res) => {
   console.log('📥 Received /health request');
   res.json({ status: 'success', message: 'Server is running' });
@@ -83,6 +123,7 @@ app.use((req, res) => {
   res.status(404).json({ status: 'error', message: 'Route not found' });
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
 });
