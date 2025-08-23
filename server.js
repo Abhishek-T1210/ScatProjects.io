@@ -10,6 +10,9 @@ const port = process.env.PORT || 3001;
 const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbxI1dVbFZ7w-Tm8WpKWY5eDFaqv7M3sqJ93aezQQ-0FH3cucoe4Z2xIiHfOE6aeKQmc/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
+// Enable trust proxy to handle X-Forwarded-For header
+app.set('trust proxy', 1);
+
 // Request queue for Google Apps Script (callback form)
 const requestQueue = [];
 let isProcessingQueue = false;
