@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 const GOOGLE_SCRIPT_URL =
   process.env.GOOGLE_SCRIPT_URL ||
-  'https://script.google.com/macros/s/AKfycbykzUfsJGc9w_fPyS6KAm8UdAu5h0HYnX2AuAfDz6LdMVJH9jLT3w4WXYlqMNNsvNUH/exec';
+  'https://script.google.com/macros/s/AKfycbx59giTPfDLRINT6xSMed2pesTb0JxYV-gSFHqR-DU/devhttps://script.google.com/macros/s/AKfycbyLZGKlEM5b0k8TVOr2acr7p6FXo6dOf13756yJywID5Gq8VBRL4v8GIW8XqXcjya6w/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
 // Request queue for Google Apps Script (callback form)
