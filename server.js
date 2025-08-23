@@ -1,4 +1,3 @@
-
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
@@ -8,9 +7,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3001;
-const GOOGLE_SCRIPT_URL =
-  process.env.GOOGLE_SCRIPT_URL ||
-  'https://script.google.com/macros/s/AKfycbx59giTPfDLRINT6xSMed2pesTb0JxYV-gSFHqR-DU/devhttps://script.google.com/macros/s/AKfycbyLZGKlEM5b0k8TVOr2acr7p6FXo6dOf13756yJywID5Gq8VBRL4v8GIW8XqXcjya6w/exec';
+const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyLZGKlEM5b0k8TVOr2acr7p6FXo6dOf13756yJywID5Gq8VBRL4v8GIW8XqXcjya6w/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
 // Request queue for Google Apps Script (callback form)
@@ -40,8 +37,11 @@ async function processQueue() {
       let result;
       try {
         result = JSON.parse(rawText);
+        if (result.status !== 'success') {
+          throw new Error(result.message || 'Google Apps Script returned an error');
+        }
       } catch (err) {
-        result = { status: 'success', message: rawText };
+        throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
       }
 
       console.log(`✅ [${id}] Success: Data written to ${data.formType} sheet for phone ${data.phone}`);
@@ -87,7 +87,7 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
-// Callback Route (unchanged, uses Google Apps Script)
+// Callback Route
 app.post('/callback', async (req, res) => {
   console.log('📥 Received /callback request:', req.body);
   try {
@@ -117,7 +117,7 @@ app.post('/callback', async (req, res) => {
   }
 });
 
-// Project Route (updated for new Google Apps Script)
+// Project Route (unchanged except for improved error handling)
 app.post('/project', async (req, res) => {
   console.log('📥 Received /project request:', req.body);
   try {
@@ -145,7 +145,7 @@ app.post('/project', async (req, res) => {
       return res.status(400).json({ status: 'error', message: 'Invalid timestamp: Must be YYYY-MM-DD hh:mm AM/PM' });
     }
 
-    const data = { name, phone, branch, project, timestamp };
+    const data = { formType: 'project', name, phone, branch, project, timestamp };
     console.log(`➡️ Sending /project request to new API:`, data);
     const response = await fetch(PROJECT_API_URL, {
       method: 'POST',
@@ -161,8 +161,11 @@ app.post('/project', async (req, res) => {
     let result;
     try {
       result = JSON.parse(rawText);
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'Google Apps Script returned an error');
+      }
     } catch (err) {
-      result = { status: 'success', message: rawText };
+      throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
     }
 
     console.log(`✅ Success: Data sent to new API for phone ${phone}`);
