@@ -1,11 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Backend URL configuration (use environment variable or fallback to local)
+    const BASE_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:3001' 
+        : 'https://scatprojects.netlify.app'; // Replace with your production backend URL
+
     // Loader
     const loader = document.getElementById('loader');
     if (loader) {
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                loader.classList.add('hidden');
-            }, 1000);
+            const startTime = Date.now();
+            const minDisplayTime = 1000;
+            const elapsed = Date.now() - startTime;
+            setTimeout(() => loader.classList.add('hidden'), Math.max(0, minDisplayTime - elapsed));
         });
     }
 
@@ -18,40 +24,46 @@ document.addEventListener("DOMContentLoaded", () => {
             mobileToggle.innerHTML = navMenu.classList.contains('active')
                 ? '<i class="fas fa-times"></i>'
                 : '<i class="fas fa-bars"></i>';
+            mobileToggle.setAttribute('aria-expanded', navMenu.classList.contains('active'));
         });
     }
 
     // Header Scroll Effect
     const header = document.getElementById('header');
     if (header) {
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    header.classList.toggle('scrolled', window.scrollY > 50);
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
     }
 
     // Scroll Animations
     const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
-    if (animateOnScrollElements.length > 0 && 'IntersectionObserver' in window) {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.3
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        animateOnScrollElements.forEach(element => observer.observe(element));
+    if (animateOnScrollElements.length > 0) {
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3
+            };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            animateOnScrollElements.forEach(element => observer.observe(element));
+        } else {
+            animateOnScrollElements.forEach(el => el.classList.add('animated'));
+        }
     }
 
     // Portfolio Filter
@@ -62,15 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
             button.addEventListener('click', () => {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-
                 const filter = button.getAttribute('data-filter');
                 portfolioItems.forEach(item => {
                     const category = item.getAttribute('data-category');
                     if (filter === 'all' || filter === category) {
                         item.style.display = 'block';
-                        setTimeout(() => {
-                            item.classList.add('animated');
-                        }, 50);
+                        setTimeout(() => item.classList.add('animated'), 50);
                     } else {
                         item.style.display = 'none';
                         item.classList.remove('animated');
@@ -86,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const modalBody = document.getElementById('modal-body');
         const closeBtn = document.querySelector('.modal-close');
         const detailBtns = document.querySelectorAll('.portfolio-overlay-btn');
-
         if (detailBtns.length > 0 && modalBody && closeBtn) {
             detailBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -100,12 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 100);
                 });
             });
-
             closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
                 modal.querySelector('.modal-content').classList.remove('animated');
             });
-
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.style.display = 'none';
@@ -129,253 +135,268 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }, { root: null, rootMargin: '0px', threshold: 0.2 });
-
         animatedElements.forEach(element => observer.observe(element));
     }
 
-// Contact Form Functionality
-const contactForm = document.getElementById('contactForm');
-const progressBar = document.getElementById('formProgressBar');
-const inputs = contactForm ? contactForm.querySelectorAll('.form-input') : [];
+    // Contact Form Functionality
+    const contactForm = document.getElementById('contactForm');
+    const progressBar = document.getElementById('formProgressBar');
+    const inputs = contactForm ? contactForm.querySelectorAll('.form-input') : [];
 
-function updateProgress() {
-    if (!progressBar || inputs.length === 0) return;
-    const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
-    const percent = (filled / inputs.length) * 100;
-    progressBar.style.width = `${percent}%`;
-    if (percent === 100) {
-        progressBar.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
-        setTimeout(() => {
-            progressBar.style.background = 'linear-gradient(90deg, #4f46e5, #7c3aed)';
-        }, 800);
-    }
-}
-
-function validateField(field) {
-    const fieldId = field.id;
-    const value = field.value.trim();
-    const errorSpan = field.parentElement.querySelector('.form-error');
-    if (!errorSpan) return true;
-
-    let isValid = true;
-    let errorMessage = '';
-
-    switch (fieldId) {
-        case 'name':
-            if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
-                isValid = false;
-                errorMessage = 'Name must be at least 3 characters';
-            }
-            break;
-        case 'phone':
-            if (!/^\d{10}$/.test(value)) {
-                isValid = false;
-                errorMessage = 'Enter a valid 10-digit phone number';
-            }
-            break;
-        case 'branch':
-            if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
-                isValid = false;
-                errorMessage = 'Branch name must be at least 3 characters';
-            }
-            break;
-        case 'project':
-            if (value.length < 10) {
-                isValid = false;
-                errorMessage = 'Description must be at least 10 characters';
-            }
-            break;
+    function updateProgress() {
+        if (!progressBar || inputs.length === 0) return;
+        const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
+        const percent = (filled / inputs.length) * 100;
+        progressBar.style.width = `${percent}%`;
+        if (percent === 100) {
+            progressBar.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
+            setTimeout(() => {
+                progressBar.style.background = 'linear-gradient(90deg, #4f46e5, #7c3aed)';
+            }, 800);
+        }
     }
 
-    if (isValid) {
-        errorSpan.textContent = '';
-        errorSpan.classList.remove('show');
-        field.style.borderColor = '#22c55e';
-    } else {
-        errorSpan.textContent = errorMessage;
-        errorSpan.classList.add('show');
-        field.style.borderColor = '#ef4444';
-    }
+    function validateField(field) {
+        const fieldId = field.id;
+        const value = field.value.trim();
+        const errorSpan = field.parentElement.querySelector('.form-error');
+        if (!errorSpan) return true;
 
-    return isValid;
-}
+        let isValid = true;
+        let errorMessage = '';
 
-function validateForm() {
-    let valid = true;
-    const errorSpans = document.querySelectorAll('.form-error');
-    errorSpans.forEach(span => {
-        span.textContent = '';
-        span.classList.remove('show');
-    });
-
-    inputs.forEach(input => input.style.borderColor = '#e5e7eb');
-
-    if (document.getElementById('name') && !validateField(document.getElementById('name'))) valid = false;
-    if (document.getElementById('phone') && !validateField(document.getElementById('phone'))) valid = false;
-    if (document.getElementById('branch') && !validateField(document.getElementById('branch'))) valid = false;
-    if (document.getElementById('project') && !validateField(document.getElementById('project'))) valid = false;
-
-    return valid;
-}
-
-function createParticleEffect(button) {
-    const rect = button.getBoundingClientRect();
-    const particles = 10;
-    for (let i = 0; i < particles; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'fixed';
-        particle.style.left = `${rect.left + rect.width / 2}px`;
-        particle.style.top = `${rect.top + rect.height / 2}px`;
-        particle.style.width = '3px';
-        particle.style.height = '3px';
-        particle.style.background = '#ffffff';
-        particle.style.borderRadius = '50%';
-        particle.style.pointerEvents = 'none';
-        particle.style.zIndex = '9999';
-        document.body.appendChild(particle);
-
-        const angle = (Math.PI * 2 * i) / particles;
-        const velocity = 1.5;
-        const distance = 80;
-
-        const targetX = Math.cos(angle) * distance;
-        const targetY = Math.sin(angle) * distance;
-
-        particle.animate([
-            { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-            { transform: `translate(${targetX}px, ${targetY}px) scale(0)`, opacity: 0 }
-        ], {
-            duration: 800,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-        }).addEventListener('finish', () => particle.remove());
-    }
-}
-
-if (contactForm) {
-    contactForm.addEventListener('submit', async event => {
-        event.preventDefault();
-
-        if (validateForm()) {
-            const submitBtn = contactForm.querySelector('.form-submit');
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
-
-            createParticleEffect(submitBtn);
-
-            // Prepare data
-            const data = {
-                name: document.getElementById('name').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                branch: document.getElementById('branch').value.trim(),
-                project: document.getElementById('project').value.trim(),
-                formType: 'project'
-            };
-
-            try {
-                // ✅ FIX: call correct backend route
-                const response = await fetch("/project", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                if (response.ok) {
-                    showPopup('Your request has been submitted successfully. Our team will contact you shortly.');
-                    contactForm.reset();
-                    updateProgress();
-                    document.querySelectorAll('.form-error').forEach(span => {
-                        span.textContent = '';
-                        span.classList.remove('show');
-                    });
-                    inputs.forEach(input => input.style.borderColor = '#e5e7eb');
-                } else {
-                    const errorData = await response.json();
-                    const errorSpan = document.getElementById('project').parentElement.querySelector('.form-error');
-                    errorSpan.textContent = errorData.message || 'Failed to submit. Please try again.';
-                    errorSpan.classList.add('show');
+        switch (fieldId) {
+            case 'name':
+                if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Name must be at least 3 characters';
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                const errorSpan = document.getElementById('project').parentElement.querySelector('.form-error');
-                errorSpan.textContent = error.message || 'Failed to submit. Please try again.';
-                errorSpan.classList.add('show');
-            } finally {
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            }
+                break;
+            case 'phone':
+                if (!/^\d{10}$/.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Enter a valid 10-digit phone number';
+                }
+                break;
+            case 'branch':
+                if (!/^[a-zA-Z\s]{3,}$/.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Branch name must be at least 3 characters';
+                }
+                break;
+            case 'project':
+                if (value.length < 10) {
+                    isValid = false;
+                    errorMessage = 'Description must be at least 10 characters';
+                }
+                break;
+        }
+
+        if (isValid) {
+            errorSpan.textContent = '';
+            errorSpan.classList.remove('show');
+            field.style.borderColor = '#22c55e';
         } else {
-            contactForm.style.animation = 'shake 0.4s ease-in-out';
-            setTimeout(() => contactForm.style.animation = '', 400);
+            errorSpan.textContent = errorMessage;
+            errorSpan.classList.add('show');
+            field.style.borderColor = '#ef4444';
         }
-    });
 
-    inputs.forEach(input => {
-        input.addEventListener('input', () => {
-            updateProgress();
-            validateField(input);
-        });
-        input.addEventListener('focus', () => {
-            input.parentElement.querySelector('.input-icon').style.color = 'var(--primary)';
-        });
-        input.addEventListener('blur', () => {
-            input.parentElement.querySelector('.input-icon').style.color = 'var(--gray-500)';
-            validateField(input);
-        });
-    });
-}
-
-function showPopup(message) {
-    const popup = document.getElementById('popup');
-    if (popup) {
-        const popupMessage = popup.querySelector('p');
-        if (popupMessage) popupMessage.textContent = message;
-        popup.classList.add('active');
-        setTimeout(() => popup.classList.remove('active'), 4000);
+        return isValid;
     }
-}
 
-window.closePopup = function() {
-    const popup = document.getElementById('popup');
-    if (popup) popup.classList.remove('active');
-};
+    function validateForm() {
+        let valid = true;
+        const errorSpans = document.querySelectorAll('.form-error');
+        errorSpans.forEach(span => {
+            span.textContent = '';
+            span.classList.remove('show');
+        });
 
-// Typing effect for placeholders
-function addTypingEffect() {
-    const typingInputs = document.querySelectorAll('.form-input[placeholder]');
-    typingInputs.forEach(input => {
-        const originalPlaceholder = input.getAttribute('placeholder');
-        let currentPlaceholder = '';
-        let index = 0;
+        inputs.forEach(input => input.style.borderColor = '#e5e7eb');
 
-        function typePlaceholder() {
-            if (index < originalPlaceholder.length) {
-                currentPlaceholder += originalPlaceholder[index];
-                input.setAttribute('placeholder', currentPlaceholder);
-                index++;
-                setTimeout(typePlaceholder, 120);
-            }
+        if (document.getElementById('name') && !validateField(document.getElementById('name'))) valid = false;
+        if (document.getElementById('phone') && !validateField(document.getElementById('phone'))) valid = false;
+        if (document.getElementById('branch') && !validateField(document.getElementById('branch'))) valid = false;
+        if (document.getElementById('project') && !validateField(document.getElementById('project'))) valid = false;
+
+        return valid;
+    }
+
+    function createParticleEffect(button) {
+        const rect = button.getBoundingClientRect();
+        const particles = 10;
+        for (let i = 0; i < particles; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = `${rect.left + rect.width / 2}px`;
+            particle.style.top = `${rect.top + rect.height / 2}px`;
+            particle.style.width = '3px';
+            particle.style.height = '3px';
+            particle.style.background = '#ffffff';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            document.body.appendChild(particle);
+
+            const angle = (Math.PI * 2 * i) / particles;
+            const velocity = 1.5;
+            const distance = 80;
+
+            const targetX = Math.cos(angle) * distance;
+            const targetY = Math.sin(angle) * distance;
+
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${targetX}px, ${targetY}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            }).addEventListener('finish', () => particle.remove());
         }
+    }
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        input.setAttribute('placeholder', '');
-                        currentPlaceholder = '';
-                        index = 0;
-                        typePlaceholder();
-                    }, 400);
-                    observer.unobserve(input);
+    if (contactForm) {
+        contactForm.addEventListener('submit', async event => {
+            event.preventDefault();
+
+            if (validateForm()) {
+                const submitBtn = contactForm.querySelector('.form-submit');
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+
+                createParticleEffect(submitBtn);
+
+                // Generate timestamp in IST with 12-hour format
+                const now = new Date();
+                const istOffset = 5.5 * 60 * 60 * 1000; // UTC+5:30
+                const istTime = new Date(now.getTime() + istOffset);
+                const year = istTime.getUTCFullYear();
+                const month = String(istTime.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(istTime.getUTCDate()).padStart(2, '0');
+                let hours = istTime.getUTCHours();
+                const minutes = String(istTime.getUTCMinutes()).padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12;
+                const formattedHours = String(hours).padStart(2, '0');
+                const timestamp = `${year}-${month}-${day} ${formattedHours}:${minutes} ${ampm}`;
+
+                const data = {
+                    name: document.getElementById('name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    branch: document.getElementById('branch').value.trim(),
+                    project: document.getElementById('project').value.trim(),
+                    timestamp: timestamp,
+                    formType: 'project'
+                };
+
+                try {
+                    const response = await fetch(`${BASE_URL}/project`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        throw new Error('Server returned non-JSON response');
+                    }
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        showPopup('Your project request has been submitted successfully. Our team will contact you shortly.');
+                        contactForm.reset();
+                        updateProgress();
+                        document.querySelectorAll('.form-error').forEach(span => {
+                            span.textContent = '';
+                            span.classList.remove('show');
+                        });
+                        inputs.forEach(input => input.style.borderColor = '#e5e7eb');
+                    } else {
+                        throw new Error(result.message || 'Failed to submit project request. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Project Form Error:', error);
+                    const errorSpan = document.getElementById('project').parentElement.querySelector('.form-error');
+                    errorSpan.textContent = error.message || 'Failed to submit project request. Please try again.';
+                    errorSpan.classList.add('show');
+                } finally {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
                 }
+            } else {
+                contactForm.style.animation = 'shake 0.4s ease-in-out';
+                setTimeout(() => contactForm.style.animation = '', 400);
+            }
+        });
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                updateProgress();
+                validateField(input);
+            });
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('.input-icon').style.color = 'var(--primary)';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('.input-icon').style.color = 'var(--gray-500)';
+                validateField(input);
             });
         });
+    }
 
-        observer.observe(input);
-    });
-}
+    function showPopup(message) {
+        const popup = document.getElementById('popup');
+        if (popup) {
+            const popupMessage = popup.querySelector('p');
+            if (popupMessage) popupMessage.textContent = message;
+            popup.classList.add('active');
+            setTimeout(() => popup.classList.remove('active'), 4000);
+        }
+    }
 
-addTypingEffect();
+    window.closePopup = function() {
+        const popup = document.getElementById('popup');
+        if (popup) popup.classList.remove('active');
+    };
 
+    // Typing effect for placeholders
+    function addTypingEffect() {
+        const typingInputs = document.querySelectorAll('.form-input[placeholder]');
+        typingInputs.forEach(input => {
+            const originalPlaceholder = input.getAttribute('placeholder');
+            let currentPlaceholder = '';
+            let index = 0;
+
+            function typePlaceholder() {
+                if (index < originalPlaceholder.length) {
+                    currentPlaceholder += originalPlaceholder[index];
+                    input.setAttribute('placeholder', currentPlaceholder);
+                    index++;
+                    setTimeout(typePlaceholder, 120);
+                }
+            }
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            input.setAttribute('placeholder', '');
+                            currentPlaceholder = '';
+                            index = 0;
+                            typePlaceholder();
+                        }, 400);
+                        observer.unobserve(input);
+                    }
+                });
+            });
+
+            observer.observe(input);
+        });
+    }
+
+    addTypingEffect();
 
     // Callback Form Functionality
     const callbackForm = document.getElementById('callbackForm');
@@ -429,7 +450,7 @@ addTypingEffect();
             const formattedHours = String(hours).padStart(2, '0');
             const timestamp = `${year}-${month}-${day} ${formattedHours}:${minutes} ${ampm}`;
 
-            // Prepare data for API
+            // Prepare data for backend
             const data = {
                 phone: phoneInput.value.trim(),
                 timestamp: timestamp,
@@ -437,8 +458,7 @@ addTypingEffect();
             };
 
             try {
-                // Send POST request to callback endpoint
-                const response = await fetch('/callback', {
+                const response = await fetch(`${BASE_URL}/callback`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -446,17 +466,23 @@ addTypingEffect();
                     body: JSON.stringify(data)
                 });
 
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned non-JSON response');
+                }
+
+                const result = await response.json();
+
                 if (response.ok) {
                     closeCallbackPopup();
                     showAckPopup();
                     callbackForm.reset();
                 } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to submit data');
+                    throw new Error(result.message || 'Failed to submit callback request');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                errorSpan.textContent = error.message || 'Failed to submit. Please try again.';
+                console.error('Callback Form Error:', error);
+                errorSpan.textContent = error.message || 'Failed to submit callback request. Please try again.';
                 errorSpan.classList.add('show');
                 phoneInput.style.borderColor = '#ef4444';
             } finally {
