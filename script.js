@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Backend URL configuration (use environment variable or fallback to local)
     const BASE_URL = window.location.hostname === 'localhost' 
         ? 'http://localhost:3001' 
-        : 'https://scatprojects.netlify.app'; // Replace with your production backend URL
+        : 'https://scatprojects-io.onrender.com'; // Replace with your production backend URL
 
     // Loader
     const loader = document.getElementById('loader');
