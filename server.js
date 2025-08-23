@@ -7,59 +7,10 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3001;
-const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbxI1dVbFZ7w-Tm8WpKWY5eDFaqv7M3sqJ93aezQQ-0FH3cucoe4Z2xIiHfOE6aeKQmc/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
 // Enable trust proxy to handle X-Forwarded-For header
 app.set('trust proxy', 1);
-
-// Request queue for Google Apps Script (callback form)
-const requestQueue = [];
-let isProcessingQueue = false;
-let requestIdCounter = 1;
-
-async function processQueue() {
-  if (isProcessingQueue || requestQueue.length === 0) return;
-  isProcessingQueue = true;
-
-  while (requestQueue.length > 0) {
-    const { id, data, resolve, reject } = requestQueue.shift();
-    try {
-      console.log(`➡️ [${id}] Sending request to Google Script:`, data);
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      const rawText = await response.text();
-      if (!response.ok) {
-        throw new Error(`Google Apps Script failed [${response.status}]: ${rawText.substring(0, 200)}`);
-      }
-
-      let result;
-      try {
-        result = JSON.parse(rawText);
-        if (result.status !== 'success') {
-          throw new Error(result.message || 'Google Apps Script returned an error');
-        }
-      } catch (err) {
-        throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
-      }
-
-      console.log(`✅ [${id}] Success: Data written to ${data.formType} sheet for phone ${data.phone || 'unknown'}`);
-      resolve(result);
-    } catch (error) {
-      console.error(`❌ [${id}] Queue Error for ${data.formType}:`, {
-        phone: data.phone || 'unknown',
-        error: error.message,
-        stack: error.stack,
-      });
-      reject(error);
-    }
-  }
-  isProcessingQueue = false;
-}
 
 // Middlewares
 app.use(cors({
@@ -69,12 +20,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Rate Limits
-app.use('/callback', rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: { status: 'error', message: 'Too many callback requests, please try again later.' },
-}));
+// Rate Limits for project endpoint
 app.use('/project', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -89,32 +35,6 @@ app.get('/', (req, res) => {
 
 // Serve static files from project root
 app.use(express.static(__dirname));
-
-// Callback Route (add timestamp dynamically)
-app.post('/callback', async (req, res) => {
-  console.log('📥 Received /callback request:', req.body);
-  try {
-    const { phone } = req.body;
-    const timestamp = new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    }).replace(/,/, ''); // Format: YYYY-MM-DD hh:mm AM/PM
-    const id = requestIdCounter++;
-    const promise = new Promise((resolve, reject) => {
-      requestQueue.push({ id, data: { phone, timestamp, formType: 'callback' }, resolve, reject });
-    });
-    setImmediate(processQueue);
-    const result = await promise;
-    res.json(result);
-  } catch (error) {
-    console.error('❌ Callback Error:', error.message, error.stack);
-    res.status(500).json({ status: 'error', message: error.message });
-  }
-});
 
 // Project Route (validations removed)
 app.post('/project', async (req, res) => {
@@ -147,7 +67,7 @@ app.post('/project', async (req, res) => {
     console.log(`✅ Success: Data sent to new API for phone ${phone || 'unknown'}`);
     res.json(result);
   } catch (error) {
-    console.error('❌ Project Error :', error.message, error.stack);
+    console.error('❌ Project Error:', error.message, error.stack);
     res.status(500).json({ status: 'error', message: error.message });
   }
 });
