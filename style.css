@@ -3613,7 +3613,7 @@
         top: 56px;
         left: 0;
         right: 0;
-        background: linear-gradient(135deg, #1a1a2e, #16213e);;
+        background: linear-gradient(135deg, #ffffff, #ffffff);;
         flex-direction: column;
         padding: 1.5rem 1rem;
         gap: 1rem;
@@ -3634,7 +3634,7 @@
     .nav-link {
         font-size: 0.95rem;
         font-weight: 500;
-       background: linear-gradient(to right, #ffffff, #a855f7);
+       background: linear-gradient(to right, #ff0000, #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
