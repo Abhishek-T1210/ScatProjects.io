@@ -479,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ackPopup.classList.add('active');
             setTimeout(() => {
                 ackPopup.classList.remove('active');
-            }, 4000);
+            }, 1000);
         }
     }
 

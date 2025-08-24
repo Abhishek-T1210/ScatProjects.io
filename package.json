@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Abhishek-T1210/ScatProjects.io#readme",
   "dependencies": {
+    "bull": "^4.16.5",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
