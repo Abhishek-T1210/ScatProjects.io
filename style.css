@@ -3925,7 +3925,7 @@
 
     .visual-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 1rem;
+        gap: 1.3rem;
     }
 
     .visual-card {
@@ -4004,7 +4004,7 @@
     }
 
     #port-h1 {
-        font-size: 18px; /* Smaller title */
+        font-size: 20px; /* Smaller title */
         margin-bottom: 0.6rem;
     }
 
@@ -4012,12 +4012,17 @@
         display: none;
     }
 
+    .section-header {
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
     .portfolio-filters {
         gap: 0.6rem;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        margin-bottom: 0.6rem;
+        margin-bottom: 1rem;
     }
 
     .portfolio-grid {
@@ -4076,6 +4081,21 @@
     .tech-tag {
         font-size: 0.5rem; /* Smaller tech tags */
         padding: 0.15rem 0.3rem;
+    }
+
+    .filter-instruction {
+        font-size: 0.75rem;
+        color: #3b82f6;
+        margin-top: 0.3rem;
+        margin-bottom: 10px;
+        text-align: center;
+        font-weight: 600;
+        background: linear-gradient(90deg, #e0e7ff 0%, #f3f4f6 100%);
+        border-radius: 6px;
+        padding: 0.4rem 0.8rem;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+        letter-spacing: 0.5px;
+        animation: fadeIn 0.8s ease;
     }
 
     .filter-btn {
