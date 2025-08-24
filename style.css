@@ -3065,16 +3065,23 @@
     .about-feature-text {
         font-size: 0.9rem;
     }
-
   
     .cta-button {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
         width: 100%;
-        max-width: 200px;
+        max-width: 300px;
         margin: 0 auto;
     }
 
+    .cta-button img{
+        width: 26px;
+        height: 26px;
+        margin-right: 0.5rem;
+        filter: invert(1);
+        background: transparent;
+
+    }
    
 
     .about-video video {
