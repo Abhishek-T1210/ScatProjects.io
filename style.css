@@ -2743,6 +2743,10 @@
         display: none;
     }
 
+    .futuristic-callback-overlay {
+        display: none;
+    }
+
      .futuristic-callback-content {
         padding: 2rem;
         max-width: 360px;
@@ -3336,7 +3340,6 @@
     .futuristic-callback-content {
         padding: 1.5rem;
         max-width: 320px;
-        display: none;
     }
 
     .futuristic-callback-header h3 {
