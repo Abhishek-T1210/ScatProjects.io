@@ -3973,13 +3973,16 @@
     }
 
     .visual-card {
-        height: 80px;
-        width: 80px;
+        height: 86px;
+        width: 86px;
         padding: 0.6rem;
     }
 
     .visual-card i {
         font-size: 1.2rem;
+    }
+    .visual-grid{
+        gap: 2rem;
     }
 
     .visual-card h4 {
