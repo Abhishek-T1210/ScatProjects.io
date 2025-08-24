@@ -3115,6 +3115,10 @@
     .stat-item {
         padding: 0.6rem;
         height: 122px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .stat-number {
