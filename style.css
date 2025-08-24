@@ -4086,6 +4086,7 @@
     .filter-instruction {
         font-size: 0.75rem;
         color: #3b82f6;
+        display: none;
         margin-top: 0.3rem;
         margin-bottom: 10px;
         text-align: center;
