@@ -10,27 +10,15 @@
 <link rel="icon" type="image/png" href="media/code.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-   <link rel="stylesheet" href="style.css">
-   
-  <!-- <script>
-    document.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-    }, true);
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "F12") {
-        event.preventDefault();
-      }
-
-      if (event.ctrlKey && event.shiftKey && ["I", "J", "C"].includes(event.key.toUpperCase())) {
-        event.preventDefault();
-      }
-
-      if (event.ctrlKey && event.key.toUpperCase() === "U") {
-        event.preventDefault();
-      }
-    }, true);
-  </script> -->
+   <link rel="stylesheet" href="style.css">   
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const video = document.querySelector("#about-video-mob video");
+  video.addEventListener("ended", function() {
+    video.play();
+  });
+});
+</script>
      <script src="script.js" defer></script>
 </head>
 <body>
