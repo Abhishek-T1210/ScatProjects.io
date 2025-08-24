@@ -520,3 +520,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addTypingEffect();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('.testimonials-grid');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const cards = document.querySelectorAll('.testimonial-card');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        if (window.innerWidth <= 786) {
+            const cardWidth = cards[0].offsetWidth; // Card width
+            const gap = 1; // CSS gap between cards
+            const padding = 10; // Margin on each side of card
+            const containerWidth = grid.offsetWidth; // Container width
+            let scrollLeft;
+
+            if (currentIndex === cards.length - 1) {
+                // For the last card, align its right edge with the container's right edge
+                scrollLeft = (cards.length - 1) * (cardWidth + gap) + padding;
+            } else {
+                // For other cards, center them
+                const offset = (containerWidth - cardWidth - 2 * padding) / 2;
+                scrollLeft = currentIndex * (cardWidth + gap) + padding - offset;
+            }
+
+            grid.scrollTo({
+                left: scrollLeft,
+                behavior: 'smooth'
+            });
+            // Update button states
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === cards.length - 1;
+        }
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < cards.length - 1) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 786) {
+            grid.style.overflowX = 'visible';
+            grid.scrollTo({ left: 0, behavior: 'auto' });
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+        } else {
+            grid.style.overflowX = 'hidden';
+            updateCarousel();
+        }
+    });
+
+    // Initial button state and alignment
+    updateCarousel();
+});
