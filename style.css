@@ -3645,7 +3645,7 @@
         transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
-    .nav-link:hover {
+    /* .nav-link:hover {
         background: var(--gray-700, #374151);
         color: var(--primary-light, #a5b4fc);
         transform: translateX(4px);
@@ -3658,10 +3658,10 @@
     }
 
     /* Staggered animation for menu items */
-    .nav-menu.active .nav-link {
+    /* .nav-menu.active .nav-link {
         animation: slideInProfessional 0.3s ease forwards;
         animation-delay: calc(var(--index) * 0.08s);
-    }
+    } */ 
 
     @keyframes slideInProfessional {
         from {
