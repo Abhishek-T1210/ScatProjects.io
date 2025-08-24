@@ -1,8 +1,10 @@
+
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const Queue = require('bull');``
 require('dotenv').config();
 
 const app = express();
@@ -11,6 +13,10 @@ const port = process.env.PORT || 3001;
 // API URLs
 const CALLBACK_API_URL = 'https://script.google.com/macros/s/AKfycbxI1dVbFZ7w-Tm8WpKWY5eDFaqv7M3sqJ93aezQQ-0FH3cucoe4Z2xIiHfOE6aeKQmc/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
+
+// Initialize Bull queues
+const callbackQueue = new Queue('callback-queue', process.env.REDIS_URL || 'redis://127.0.0.1:6379');
+const projectQueue = new Queue('project-queue', process.env.REDIS_URL || 'redis://127.0.0.1:6379');
 
 // Enable trust proxy to handle X-Forwarded-For header
 app.set('trust proxy', 1);
@@ -45,6 +51,69 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
+// Callback Queue Processor
+callbackQueue.process(async (job) => {
+  const { phone, timestamp, formType } = job.data;
+  console.log(`➡️ Processing callback queue job:`, job.data);
+  try {
+    const response = await fetch(CALLBACK_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formType, phone, timestamp }),
+    });
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Server returned non-JSON response');
+    }
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.message || `Callback API failed [${response.status}]`);
+    }
+
+    console.log(`✅ Success: Callback job processed for phone ${phone || 'unknown'}`);
+    return result;
+  } catch (error) {
+    console.error('❌ Callback Queue Error:', error.message, error.stack);
+    throw error; // Bull will handle retries or move to failed queue
+  }
+});
+
+// Project Queue Processor
+projectQueue.process(async (job) => {
+  const { name, phone, branch, project, timestamp, formType } = job.data;
+  console.log(`➡️ Processing project queue job:`, job.data);
+  try {
+    const response = await fetch(PROJECT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formType, name, phone, branch, project, timestamp }),
+    });
+
+    const rawText = await response.text();
+    if (!response.ok) {
+      throw new Error(`Project API failed [${response.status}]: ${rawText.substring(0, 200)}`);
+    }
+
+    let result;
+    try {
+      result = JSON.parse(rawText);
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'Google Apps Script returned an error');
+      }
+    } catch (err) {
+      throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
+    }
+
+    console.log(`✅ Success: Project job processed for phone ${phone || 'unknown'}`);
+    return result;
+  } catch (error) {
+    console.error('❌ Project Queue Error:', error.message, error.stack);
+    throw error; // Bull will handle retries or move to failed queue
+  }
+});
+
 // Callback Route
 app.post('/callback', callbackLimiter, async (req, res) => {
   console.log('📥 Received /callback request:', req.body);
@@ -65,29 +134,18 @@ app.post('/callback', callbackLimiter, async (req, res) => {
       });
     }
 
-    const data = { formType, phone, timestamp };
-    console.log(`➡️ Sending /callback request to API:`, data);
-    const response = await fetch(CALLBACK_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+    // Add to queue
+    await callbackQueue.add({ formType, phone, timestamp }, { attempts: 3, backoff: 5000 });
+    console.log(`✅ Callback request queued for phone ${phone || 'unknown'}`);
+
+    // Send immediate acknowledgment
+    res.status(202).json({
+      status: 'queued',
+      message: 'Callback request queued successfully. You will be contacted soon.',
     });
-
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new Error('Server returned non-JSON response');
-    }
-
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || `Callback API failed [${response.status}]`);
-    }
-
-    console.log(`✅ Success: Callback data sent for phone ${phone || 'unknown'}`);
-    res.status(200).json(result);
   } catch (error) {
-    console.error('❌ Callback Error:', error.message, error.stack);
-    res.status(500).json({ status: 'error', message: error.message || 'Failed to submit callback request' });
+    console.error('❌ Callback Route Error:', error.message, error.stack);
+    res.status(500).json({ status: 'error', message: 'Failed to queue callback request' });
   }
 });
 
@@ -129,34 +187,18 @@ app.post('/project', projectLimiter, async (req, res) => {
       });
     }
 
-    const data = { formType, name, phone, branch, project, timestamp };
-    console.log(`➡️ Sending /project request to API:`, data);
-    const response = await fetch(PROJECT_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+    // Add to queue
+    await projectQueue.add({ formType, name, phone, branch, project, timestamp }, { attempts: 3, backoff: 5000 });
+    console.log(`✅ Project request queued for phone ${phone || 'unknown'}`);
+
+    // Send immediate acknowledgment
+    res.status(202).json({
+      status: 'queued',
+      message: 'Project request queued successfully. We will review your submission.',
     });
-
-    const rawText = await response.text();
-    if (!response.ok) {
-      throw new Error(`Project API failed [${response.status}]: ${rawText.substring(0, 200)}`);
-    }
-
-    let result;
-    try {
-      result = JSON.parse(rawText);
-      if (result.status !== 'success') {
-        throw new Error(result.message || 'Google Apps Script returned an error');
-      }
-    } catch (err) {
-      throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
-    }
-
-    console.log(`✅ Success: Project data sent for phone ${phone || 'unknown'}`);
-    res.json(result);
   } catch (error) {
-    console.error('❌ Project Error:', error.message, error.stack);
-    res.status(500).json({ status: 'error', message: error.message });
+    console.error('❌ Project Route Error:', error.message, error.stack);
+    res.status(500).json({ status: 'error', message: 'Failed to queue project request' });
   }
 });
 
