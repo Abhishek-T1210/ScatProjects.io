@@ -168,9 +168,6 @@
     vertical-align: middle;
     animation: glow 2s ease-in-out infinite;
 }
-
-
-
         @keyframes glow {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
@@ -3587,7 +3584,7 @@
 
     .mobile-menu-toggle::before {
         content: '\2630'; /* Hamburger icon */
-        font-size: 1.8rem; /* Slightly larger for better visibility */
+        font-size: 1.8rem; /* Larger for visibility */
         color: var(--gray-900, #111827); /* Darker color for contrast */
         transition: transform 0.3s ease, color 0.3s ease;
     }
@@ -3613,16 +3610,16 @@
         top: 56px;
         left: 0;
         right: 0;
-        background: linear-gradient(135deg, #ffffff, #ffffff);;
+        background: linear-gradient(135deg, #f9fafb, #e5e7eb); /* Light, professional gradient */
         flex-direction: column;
-        padding: 1.5rem 1rem;
-        gap: 1rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 1rem 1.5rem; /* Spacious padding */
+        gap: 1.5rem; /* Increased gap for separation */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
         z-index: 1000;
         transform: translateY(-10px);
         opacity: 0;
         transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        border-radius: 0 0 8px 8px;
+        border-radius: 0 0 12px 12px; /* Soft rounded corners */
     }
 
     .nav-menu.active {
@@ -3632,48 +3629,22 @@
     }
 
     .nav-link {
-        font-size: 0.95rem;
-        font-weight: 500;
-       background: linear-gradient(to right, #ff0000, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent; /* Fallback */
-        padding: 0.8rem 1rem;
-        border-radius: 6px;
-        text-align: center;
-        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        font-size: 1rem; /* Readable size */
+        font-weight: 600; /* Bold for professionalism */
+        color: #1f2937; /* Dark text for contrast on light background */
+        padding: 1rem 1.5rem 1rem 1rem; /* Left indent for alignment */
+        text-align: left; /* Left-aligned for distinct UI */
+        border-radius: 0; /* No rounding for a clean, structured look */
     }
 
-    /* .nav-link:hover {
-        background: var(--gray-700, #374151);
-        color: var(--primary-light, #a5b4fc);
-        transform: translateX(4px);
+    /* Remove last link's border for cleaner appearance */
+    .nav-link:last-child {
+        border-bottom: none;
     }
 
-    .nav-link::after {
-        bottom: 0;
-        height: 2px;
-        background: var(--primary-light, #a5b4fc);
+    .header.scrolled .nav-link {
+        color: #1f2937; /* Change text color on scroll */
     }
-
-    /* Staggered animation for menu items */
-    /* .nav-menu.active .nav-link {
-        animation: slideInProfessional 0.3s ease forwards;
-        animation-delay: calc(var(--index) * 0.08s);
-    } */ 
-
-    @keyframes slideInProfessional {
-        from {
-            opacity: 0;
-            transform: translateX(-15px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
 
     .hero {
         padding: 1rem;
