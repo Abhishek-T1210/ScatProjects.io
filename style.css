@@ -1938,49 +1938,7 @@
     100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
-    .futuristic-callback-content {
-        padding: 2rem;
-        max-width: 360px;
-    }
 
-    .futuristic-callback-header h3 {
-        font-size: 1.4rem;
-    }
-
-    .futuristic-callback-icon {
-        font-size: 2.8rem;
-    }
-
-    .futuristic-button-group {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .futuristic-form-submit, .futuristic-whatsapp-button {
-        width: 100%;
-        min-width: auto;
-        height: 48px;
-    }
-
-    .futuristic-ack-content {
-        padding: 1.5rem;
-        max-width: 320px;
-    }
-
-    .futuristic-ack-content h3 {
-        font-size: 1.3rem;
-    }
-
-    .futuristic-ack-content p {
-        font-size: 0.9rem;
-    }
-
-    .futuristic-loader-spinner {
-        width: 32px;
-        height: 32px;
-    }
-}
 .contact {
     width: 100%;
     padding: 4rem 2rem;
@@ -2783,6 +2741,52 @@
     body {
         font-size: 14px; /* Slightly smaller base font for mobile */
         line-height: 1.5;
+    }
+
+    .loader{
+        display: none;
+    }
+
+     .futuristic-callback-content {
+        padding: 2rem;
+        max-width: 360px;
+    }
+
+    .futuristic-callback-header h3 {
+        font-size: 1.4rem;
+    }
+
+    .futuristic-callback-icon {
+        font-size: 2.8rem;
+    }
+
+    .futuristic-button-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .futuristic-form-submit, .futuristic-whatsapp-button {
+        width: 100%;
+        min-width: auto;
+        height: 48px;
+    }
+
+    .futuristic-ack-content {
+        padding: 1.5rem;
+        max-width: 320px;
+    }
+
+    .futuristic-ack-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .futuristic-ack-content p {
+        font-size: 0.9rem;
+    }
+
+    .futuristic-loader-spinner {
+        width: 32px;
+        height: 32px;
     }
 
     /* Header */
