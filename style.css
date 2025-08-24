@@ -3730,7 +3730,15 @@
 
     .hero-description {
         font-size: 0.7rem;
+        display: none;
     }
+
+    #description-mobile {
+        font-size: 0.7rem;
+        display: block;
+    }
+
+
 
     .hero-badge {
        font-size: 0.65rem;
