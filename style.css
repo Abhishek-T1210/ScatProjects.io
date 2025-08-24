@@ -3572,6 +3572,7 @@
         align-items: center;
         justify-content: center;
         z-index: 1100;
+        margin-left: -4px;
         transition: transform 0.3s ease;
     }
 
@@ -3584,7 +3585,7 @@
 
     .mobile-menu-toggle::before {
         content: '\2630'; /* Hamburger icon */
-        font-size: 1.5rem; /* Slightly larger for better visibility */
+        font-size: 1.8rem; /* Slightly larger for better visibility */
         color: var(--gray-900, #111827); /* Darker color for contrast */
         transition: transform 0.3s ease, color 0.3s ease;
     }
@@ -3671,6 +3672,7 @@
     .hero {
         padding: 1rem;
         min-height: 60vh;
+        margin-top: 44px;
     }
 
     .hero-title {
