@@ -3980,6 +3980,7 @@
         min-width: 200px;
         max-width: 200px;
         padding: 0.8rem;
+        margin-top: 15px;
     }
 
     .service-icon {
@@ -3995,6 +3996,7 @@
     .service-description {
         font-size: 0.75rem;
     }
+
 .portfolio {
         padding: 1.5rem 0.4rem; /* Minimal padding */
     }
