@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (callbackPopup) {
             callbackPopup.classList.add('active');
         }
-    }, 10000);
+    }, 10);
 
     if (callbackForm) {
         callbackForm.addEventListener('submit', async (event) => {
