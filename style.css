@@ -2624,7 +2624,7 @@
     }
 
     .services-slider .slider-track {
-        animation-duration: 10s;
+        animation-duration: 7s;
     }
 
     .service-card {
@@ -3017,7 +3017,8 @@
 
     /* About Section */
     .about {
-        padding: 1rem 1rem;
+        padding: 2rem 1rem;
+        padding-bottom: 1rem;
     }
 
     .about-container {
@@ -3148,16 +3149,32 @@
 
     /* Services Section */
     .services {
-        padding: 2rem 1rem;
+        padding: 0;
     }
 
     .services-container {
-        padding: 0 0.5rem;
+        padding: 0;
+
     }
 
     .slider-track {
         animation-duration: 12s;
+        margin-top: 0px;
     }
+
+    #slider-text {
+       padding: 2rem 1rem;
+       padding-bottom: 0rem;
+    }
+
+     #slider-text h2{
+      font-size: 23px;
+     }
+
+      #slider-text p{
+      font-size: 14px;
+     }
+
 
     .service-card {
         min-width: 220px;
