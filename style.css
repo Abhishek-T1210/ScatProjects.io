@@ -3833,7 +3833,7 @@
     }
 
     .futuristic-callback-header h3 {
-        font-size: 1rem;
+        font-size: 1.2rem;
         margin-top: 0.6rem;
     }
 
@@ -3867,7 +3867,7 @@
     }
 
     .futuristic-form-input {
-        padding: 0.8rem 0.8rem 0.8rem 2.3rem;
+        padding: 1rem 0.8rem 0.8rem 2.3rem;
         font-size: 0.7rem;
         display: flex;
         align-items: center;
