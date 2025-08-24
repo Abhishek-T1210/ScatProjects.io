@@ -3700,10 +3700,6 @@
         border-bottom: none;
     }
 
-    .header{
-    border-bottom:none;
-    }
-
     .header.scrolled .nav-link {
         color: #1f2937; /* Change text color on scroll */
     }
