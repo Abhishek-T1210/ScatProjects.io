@@ -3724,16 +3724,17 @@
     }
 
     .hero-title {
-        font-size: clamp(1.5rem, 4vw, 1.8rem);
+        font-size: 19px;
+        margin-bottom: 1rem;
     }
 
     .hero-description {
-        font-size: 0.9rem;
+        font-size: 0.7rem;
     }
 
     .hero-badge {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.7rem;
+       font-size: 0.65rem;
+        padding: 0.3rem 0.5rem;
     }
 
     .visual-grid {
