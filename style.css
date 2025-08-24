@@ -3593,7 +3593,7 @@
 }
 
 /* Small Mobile Devices (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width: 500px) {
     body {
         font-size: 13px;
     }
@@ -3719,6 +3719,10 @@
         margin-top: 56px;
     }
 
+    .hero-text {
+        padding-bottom: 0.8rem;
+    }
+
     .hero-container {
         padding: 0.5rem 0rem;
     }
@@ -3736,9 +3740,8 @@
     #description-mobile {
         font-size: 0.7rem;
         display: block;
+        margin-bottom: 2rem;
     }
-
-
 
     .hero-badge {
        font-size: 0.65rem;
@@ -3775,11 +3778,16 @@
     }
 
     .stat-numberx {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+
+    
+    .stats-containerx{
+        flex-direction: row;
     }
 
     .stat-labelx {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
     }
 
     .about-video video {
