@@ -2735,8 +2735,6 @@
 
 }
 
-/* Mobile Devices (max-width: 768px) */
-/* Mobile Devices (max-width: 768px) */
 @media (max-width: 768px) {
     body {
         font-size: 14px; /* Slightly smaller base font for mobile */
@@ -3615,7 +3613,7 @@
         top: 56px;
         left: 0;
         right: 0;
-        background: var(--dark-light, #1f2937);
+        background: linear-gradient(135deg, #1a1a2e, #16213e);;
         flex-direction: column;
         padding: 1.5rem 1rem;
         gap: 1rem;
@@ -3636,7 +3634,11 @@
     .nav-link {
         font-size: 0.95rem;
         font-weight: 500;
-        color: var(--white, #ffffff);
+       background: linear-gradient(to right, #ffffff, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback */
         padding: 0.8rem 1rem;
         border-radius: 6px;
         text-align: center;
