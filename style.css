@@ -3973,8 +3973,8 @@
     }
 
     .visual-card {
-        height: 86px;
-        width: 86px;
+        height: 94px;
+        width: 94px;
         padding: 0.6rem;
     }
 
@@ -3982,7 +3982,7 @@
         font-size: 1.2rem;
     }
     .visual-grid{
-        gap: 2rem;
+        gap: 1.2rem;
     }
 
     .visual-card h4 {
