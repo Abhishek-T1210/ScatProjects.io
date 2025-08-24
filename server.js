@@ -1,10 +1,8 @@
-
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-const Queue = require('bull');``
 require('dotenv').config();
 
 const app = express();
@@ -14,16 +12,12 @@ const port = process.env.PORT || 3001;
 const CALLBACK_API_URL = 'https://script.google.com/macros/s/AKfycbxI1dVbFZ7w-Tm8WpKWY5eDFaqv7M3sqJ93aezQQ-0FH3cucoe4Z2xIiHfOE6aeKQmc/exec';
 const PROJECT_API_URL = 'https://script.google.com/macros/s/AKfycbwekWK42H_Ga84yj99Qr3lYOnd80VnFsdNlpXa-5I39Y2vcpK3iGZeZxGJqzVZ8ipKO/exec';
 
-// Initialize Bull queues
-const callbackQueue = new Queue('callback-queue', process.env.REDIS_URL || 'redis://127.0.0.1:6379');
-const projectQueue = new Queue('project-queue', process.env.REDIS_URL || 'redis://127.0.0.1:6379');
-
 // Enable trust proxy to handle X-Forwarded-For header
 app.set('trust proxy', 1);
 
 // Middlewares
 app.use(cors({
-  origin: ['http://127.0.0.1:3000', 'http://localhost:3000', 'https://scatprojects.netlify.app'],
+  origin: ['http://127.0.0.1:3000', 'http://localhost:3000', 'https://scatprojects.netlify.app', 'https://scatprojects-io.onrender.com'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
@@ -51,10 +45,10 @@ app.get('/', (req, res) => {
 // Serve static files from project root
 app.use(express.static(__dirname));
 
-// Callback Queue Processor
-callbackQueue.process(async (job) => {
-  const { phone, timestamp, formType } = job.data;
-  console.log(`➡️ Processing callback queue job:`, job.data);
+// Background API processor for callback
+const processCallback = async (data, jobId) => {
+  const { phone, timestamp, formType } = data;
+  console.log(`➡️ Processing callback job ${jobId}:`, data);
   try {
     const response = await fetch(CALLBACK_API_URL, {
       method: 'POST',
@@ -72,18 +66,18 @@ callbackQueue.process(async (job) => {
       throw new Error(result.message || `Callback API failed [${response.status}]`);
     }
 
-    console.log(`✅ Success: Callback job processed for phone ${phone || 'unknown'}`);
+    console.log(`✅ Success: Callback job ${jobId} processed for phone ${phone || 'unknown'}`);
     return result;
   } catch (error) {
-    console.error('❌ Callback Queue Error:', error.message, error.stack);
-    throw error; // Bull will handle retries or move to failed queue
+    console.error(`❌ Callback Error for job ${jobId}:`, error.message);
+    return { status: 'error', message: error.message };
   }
-});
+};
 
-// Project Queue Processor
-projectQueue.process(async (job) => {
-  const { name, phone, branch, project, timestamp, formType } = job.data;
-  console.log(`➡️ Processing project queue job:`, job.data);
+// Background API processor for project
+const processProject = async (data, jobId) => {
+  const { name, phone, branch, project, timestamp, formType } = data;
+  console.log(`➡️ Processing project job ${jobId}:`, data);
   try {
     const response = await fetch(PROJECT_API_URL, {
       method: 'POST',
@@ -106,18 +100,18 @@ projectQueue.process(async (job) => {
       throw new Error(`Failed to parse response: ${rawText.substring(0, 200)}`);
     }
 
-    console.log(`✅ Success: Project job processed for phone ${phone || 'unknown'}`);
+    console.log(`✅ Success: Project job ${jobId} processed for phone ${phone || 'unknown'}`);
     return result;
   } catch (error) {
-    console.error('❌ Project Queue Error:', error.message, error.stack);
-    throw error; // Bull will handle retries or move to failed queue
+    console.error(`❌ Project Error for job ${jobId}:`, error.message);
+    return { status: 'error', message: error.message };
   }
-});
+};
 
 // Callback Route
 app.post('/callback', callbackLimiter, async (req, res) => {
-  console.log('📥 Received /callback request:', req.body);
   try {
+    console.log('📥 Received /callback request:', req.body);
     const { phone, timestamp, formType } = req.body;
 
     // Validate inputs
@@ -134,14 +128,20 @@ app.post('/callback', callbackLimiter, async (req, res) => {
       });
     }
 
-    // Add to queue
-    await callbackQueue.add({ formType, phone, timestamp }, { attempts: 3, backoff: 5000 });
-    console.log(`✅ Callback request queued for phone ${phone || 'unknown'}`);
+    // Generate a simple job ID
+    const jobId = `callback-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+    // Process API call in background
+    processCallback({ formType, phone, timestamp }, jobId).catch(err => {
+      console.error(`❌ Background Callback Error for job ${jobId}:`, err.message);
+    });
 
     // Send immediate acknowledgment
+    console.log(`✅ Callback request queued with job ID ${jobId} for phone ${phone || 'unknown'}`);
     res.status(202).json({
       status: 'queued',
       message: 'Callback request queued successfully. You will be contacted soon.',
+      jobId,
     });
   } catch (error) {
     console.error('❌ Callback Route Error:', error.message, error.stack);
@@ -151,8 +151,8 @@ app.post('/callback', callbackLimiter, async (req, res) => {
 
 // Project Route
 app.post('/project', projectLimiter, async (req, res) => {
-  console.log('📥 Received /project request:', req.body);
   try {
+    console.log('📥 Received /project request:', req.body);
     const { name, phone, branch, project, timestamp, formType } = req.body;
 
     // Validate inputs
@@ -187,14 +187,20 @@ app.post('/project', projectLimiter, async (req, res) => {
       });
     }
 
-    // Add to queue
-    await projectQueue.add({ formType, name, phone, branch, project, timestamp }, { attempts: 3, backoff: 5000 });
-    console.log(`✅ Project request queued for phone ${phone || 'unknown'}`);
+    // Generate a simple job ID
+    const jobId = `project-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+    // Process API call in background
+    processProject({ formType, name, phone, branch, project, timestamp }, jobId).catch(err => {
+      console.error(`❌ Background Project Error for job ${jobId}:`, err.message);
+    });
 
     // Send immediate acknowledgment
+    console.log(`✅ Project request queued with job ID ${jobId} for phone ${phone || 'unknown'}`);
     res.status(202).json({
       status: 'queued',
       message: 'Project request queued successfully. We will review your submission.',
+      jobId,
     });
   } catch (error) {
     console.error('❌ Project Route Error:', error.message, error.stack);
