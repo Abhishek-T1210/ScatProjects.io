@@ -2761,6 +2761,10 @@
         gap: 0.75rem;
     }
 
+      .futuristic-or-divider {
+        display: none;
+    }
+
     .futuristic-form-submit, .futuristic-whatsapp-button {
         width: 100%;
         min-width: auto;
