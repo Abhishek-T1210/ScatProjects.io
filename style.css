@@ -4088,6 +4088,7 @@
         color: #3b82f6;
         margin-top: 0.3rem;
         margin-bottom: 2px;
+        display: none;
         text-align: center;
         font-weight: 600;
         padding: 0.4rem 0.8rem;
