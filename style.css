@@ -2785,57 +2785,115 @@
     }
 
     /* Header */
-    .header {
-        height: 60px; /* Reduced height for mobile */
-        background: var(--white);
-        box-shadow: var(--shadow-sm);
-    }
-
     .nav-container {
-        padding: 0 1rem;
-        height: 60px;
+        padding: 0 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        height: 56px;
     }
 
     .logo {
-        font-size: 1.4rem; /* Adjusted logo size */
+        font-size: 1.2rem;
+        gap: 2px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
     }
 
     .logo::before {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .mobile-menu-toggle {
+        margin-right: auto;
+        padding: 0;
+        order: -1;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        width: 44px; /* Touch-friendly size */
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1100;
+        margin-left: -4px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Prevent duplicate icons */
+    .mobile-menu-toggle i,
+    .mobile-menu-toggle svg,
+    .mobile-menu-toggle img {
+        display: none !important;
+    }
+
+    .mobile-menu-toggle::before {
+        content: '\2630'; /* Hamburger icon */
+        font-size: 1.8rem; /* Larger for visibility */
+        color: var(--gray-900, #111827); /* Darker color for contrast */
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .mobile-menu-toggle.active::before {
+        content: '\2715'; /* X icon */
+        transform: rotate(90deg);
+        color: var(--primary, #6366f1);
+    }
+
+    /* White toggle icon when header is scrolled */
+    .header.scrolled .mobile-menu-toggle::before {
+        color: #ffffff;
+    }
+
+    .mobile-menu-toggle:hover {
+        transform: scale(1.05);
     }
 
     .nav-menu {
         display: none;
         position: fixed;
-        top: 60px;
+        top: 56px;
         left: 0;
         right: 0;
-        background: var(--dark-light);
+        background: linear-gradient(135deg, #f9fafb, #e5e7eb); /* Light, professional gradient */
         flex-direction: column;
-        padding: 1.5rem;
-        gap: 1.2rem;
-        box-shadow: var(--shadow-md);
+        padding: 1rem 1.5rem; /* Spacious padding */
+        gap: 1.5rem; /* Increased gap for separation */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
         z-index: 1000;
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        border-radius: 0 0 12px 12px; /* Soft rounded corners */
     }
 
     .nav-menu.active {
         display: flex;
+        transform: translateY(0);
+        opacity: 1;
     }
 
     .nav-link {
-        color: var(--white);
-        font-size: 1rem;
-        padding: 0.5rem 0;
+        font-size: 1rem; /* Readable size */
+        font-weight: 600; /* Bold for professionalism */
+        color: #1f2937; /* Dark text for contrast on light background */
+        padding: 1rem 1.5rem 1rem 1rem; /* Left indent for alignment */
+        text-align: left; /* Left-aligned for distinct UI */
+        border-radius: 0; /* No rounding for a clean, structured look */
     }
 
-    .nav-link::after {
-        bottom: -2px;
+    /* Remove last link's border for cleaner appearance */
+    .nav-link:last-child {
+        border-bottom: none;
     }
 
-    .mobile-menu-toggle {
-        display: block;
-        font-size: 1.4rem;
+    .header.scrolled .nav-link {
+        color: #1f2937; /* Change text color on scroll */
     }
 
     /* Hero Section */
@@ -3649,7 +3707,11 @@
     .hero {
         padding: 1rem;
         min-height: 60vh;
-        margin-top: 44px;
+        margin-top: 56px;
+    }
+
+    .hero-container {
+        padding: 0.5rem 0.5rem;
     }
 
     .hero-title {
