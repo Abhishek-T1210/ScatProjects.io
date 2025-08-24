@@ -549,10 +549,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 left: scrollLeft,
                 behavior: 'smooth'
             });
-            // Update button states
+            // Update button states with visual feedback
             prevBtn.disabled = currentIndex === 0;
             nextBtn.disabled = currentIndex === cards.length - 1;
+            updateButtonStyles();
         }
+    }
+
+    function updateButtonStyles() {
+        // Apply styles for active/inactive states
+        prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+        prevBtn.style.cursor = prevBtn.disabled ? 'not-allowed' : 'pointer';
+        prevBtn.style.background = prevBtn.disabled 
+            ? '#cccccc' 
+            : 'linear-gradient(135deg, #007bff, #005bb5)';
+        
+        nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+        nextBtn.style.cursor = nextBtn.disabled ? 'not-allowed' : 'pointer';
+        nextBtn.style.background = nextBtn.disabled 
+            ? '#cccccc' 
+            : 'linear-gradient(135deg, #007bff, #005bb5)';
     }
 
     nextBtn.addEventListener('click', () => {
@@ -575,12 +591,13 @@ document.addEventListener('DOMContentLoaded', () => {
             grid.scrollTo({ left: 0, behavior: 'auto' });
             prevBtn.disabled = true;
             nextBtn.disabled = true;
+            updateButtonStyles();
         } else {
             grid.style.overflowX = 'hidden';
             updateCarousel();
         }
     });
 
-    // Initial button state and alignment
+    // Initial button state, alignment, and styles
     updateCarousel();
 });
