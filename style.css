@@ -3026,7 +3026,7 @@
 
     .about-content {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .section-header{
@@ -3090,6 +3090,7 @@
     height: max-content;
     position: relative; 
     overflow: hidden;
+    padding-bottom: 10px;
     }
 
     #about-video-mob video {
@@ -3126,6 +3127,9 @@
     .stat-number {
         font-size: 2rem;
         margin-bottom: 0px;
+        background: linear-gradient(to right, #3b82f6, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .stat-label {
