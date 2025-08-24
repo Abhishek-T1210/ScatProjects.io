@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <p class="section-description" id="port-sub">Discover our portfolio of cutting-edge engineering projects developed for Mumbai students, spanning AI, IoT, blockchain, and web solutions.</p>
         </div>
 
-        <p class="filter-instruction">Select to filter</p>
+        <p style="display: none;" class="filter-instruction">Select to filter</p>
         <div class="portfolio-filters animate-on-scroll">
             <button class="filter-btn active" data-filter="all" aria-label="Filter all projects">All Projects</button>
             <button class="filter-btn" data-filter="ai-ml" aria-label="Filter AI & ML projects">AI & ML</button>
@@ -509,7 +509,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- Modal Structure -->
 <div id="portfolio-modal" class="modal">
     <div class="modal-content">
-        <span class="modal-close">&times;</span>
+        <div class="modal-header">
+            <h2>Project Details</h2>
+            <span class="modal-close">&times;</span>
+        </div>
         <div id="modal-body"></div>
     </div>
 </div>
