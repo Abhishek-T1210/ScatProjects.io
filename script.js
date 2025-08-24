@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCarousel() {
         if (window.innerWidth <= 786) {
             const cardWidth = cards[0].offsetWidth; // Card width
-            const gap = 1; // CSS gap between cards
+            const gap = 10; // CSS gap between cards
             const padding = 10; // Margin on each side of card
             const containerWidth = grid.offsetWidth; // Container width
             let scrollLeft;
