@@ -3015,7 +3015,7 @@ button, input, textarea {
     }
 
     .futuristic-callback-overlay {
-        display: none;
+        display: grid;
     }
 
     .futuristic-callback-content {
