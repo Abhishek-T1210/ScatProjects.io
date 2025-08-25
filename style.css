@@ -4735,7 +4735,7 @@ button, input, textarea {
 
     .btn {
         padding: 0.5rem 0.7rem;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         max-width: 140px;
         border-radius: var(--border-radius);
     }
