@@ -4228,7 +4228,7 @@ button, input, textarea {
 
     .hero-actions {
         flex-direction: row;
-        gap: var(--spacing-sm);
+        gap: 0.6rem;
         justify-content: center;
     }
 
@@ -4242,7 +4242,7 @@ button, input, textarea {
         height: 94px;
         width: 94px;
         padding: var(--spacing-sm);
-        border-radius: var(--border-radius);
+        border-radius: 18px;
     }
 
     .visual-card i {
