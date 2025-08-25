@@ -4235,6 +4235,7 @@ button, input, textarea {
     .visual-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         gap: 1.3rem;
+        max-width:320px;
     }
 
     .visual-card {
@@ -4596,14 +4597,19 @@ button, input, textarea {
 
     .info-header h2,
     .form-header h3 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         line-height: 1.3;
+        text-align: center;
     }
 
     .contact-subtitle,
     .form-subtitle {
         font-size: 0.85rem;
         line-height: 1.5;
+    }
+
+    .contact-form {
+        gap: 0.1rem;
     }
 
     /* Popup */
@@ -4710,7 +4716,7 @@ button, input, textarea {
 }
 
 /* Media Query for Extremely Small Screens (below 360px) */
-@media (max-width: 360px) {
+@media (max-width: 372px) {
     body {
         font-size: 12px;
         line-height: 1.5;
