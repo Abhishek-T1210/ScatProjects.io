@@ -4259,6 +4259,7 @@ button, input, textarea {
         font-size: 0.8rem;
         border-radius: var(--border-radius);
         transition: var(--transition);
+        min-height: 48px;
     }
 
     .stats-containerx {
@@ -4597,7 +4598,7 @@ button, input, textarea {
 
     .info-header h2,
     .form-header h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         line-height: 1.3;
         text-align: center;
     }
