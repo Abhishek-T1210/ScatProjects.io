@@ -1518,8 +1518,8 @@ button, input, textarea {
   color: #ffffff;
   border: none;
   border-radius: 50%; /* Circular buttons */
-  width: 36px; /* Smaller buttons */
-  height: 36px;
+  width: 40px; /* Smaller buttons */
+  height: 40px;
   font-size: 1rem; /* Smaller icon */
   font-weight: 600;
   cursor: pointer;
@@ -3646,7 +3646,7 @@ button, input, textarea {
         overflow-y: hidden;
         scroll-behavior: smooth;
         gap: var(--spacing-sm);
-        padding: 0 var(--spacing-sm);
+        padding: 0 12px;
         height: auto;
     }
 
@@ -4504,7 +4504,7 @@ button, input, textarea {
         width: auto;
         flex: 1;
         padding: 0.7rem;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         min-height: 40px;
         border-radius: var(--border-radius);
         transition: var(--transition);
