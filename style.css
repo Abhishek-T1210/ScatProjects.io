@@ -4234,8 +4234,8 @@ button, input, textarea {
 
     .visual-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 1.3rem;
-        max-width:320px;
+        gap: 1.5rem;
+        max-width:336px;
     }
 
     .visual-card {
@@ -4736,7 +4736,7 @@ button, input, textarea {
     .btn {
         padding: 0.5rem 0.7rem;
         font-size: 0.7rem;
-        max-width: 140px;
+        max-width: 156px;
         border-radius: var(--border-radius);
     }
 
