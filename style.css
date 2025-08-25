@@ -4295,35 +4295,29 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Ensure text remains readable */
     h1, h2, h3, h4, h5, h6 {
         line-height: 1.3;
     }
 
-    /* Adjust form inputs for touch-friendliness */
     input, textarea, button {
         min-height: 40px;
         font-size: 0.85rem;
     }
 
-    /* Optimize images for small screens */
     img {
         max-width: 100%;
         height: auto;
     }
 
-    /* Hide non-essential decorative elements */
     .decorative-element {
         display: none;
     }
 
-    /* Ensure footer links are touch-friendly */
     .footer-links a {
         padding: 0.5rem 0;
         display: block;
     }
 
-    /* Newsletter form adjustments */
     .newsletter-form input {
         font-size: 0.85rem;
         padding: 0.6rem;
@@ -4334,7 +4328,6 @@
         padding: 0.6rem;
     }
 
-    /* Back-to-top button for small screens */
     .back-to-top {
         width: 40px;
         height: 40px;
@@ -4429,7 +4422,6 @@
     }
 }
 
-/* Ensure smooth transitions for all interactive elements */
 @media (hover: hover) {
     .btn:hover,
     .nav-link:hover,
@@ -4441,7 +4433,6 @@
     }
 }
 
-/* High contrast mode for accessibility */
 @media (prefers-contrast: high) {
     body {
         background: #ffffff;
