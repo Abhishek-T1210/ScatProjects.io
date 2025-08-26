@@ -872,11 +872,15 @@ button, input, textarea {
 }
 
 .services {
-  padding: 2rem 1.5rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  background: var(--gray-100);
+  overflow: hidden; /* Ensure section stays fixed */
 }
+
 
 .services-container {
   max-width: 1200px;
@@ -919,8 +923,34 @@ button, input, textarea {
 }
 
 .services-slider {
-  overflow: hidden;
-  position: relative;
+  display: flex;
+  overflow-x: auto; /* Enable horizontal thumb scrolling */
+  scroll-snap-type: x mandatory; /* Snap cards into view */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  scrollbar-width: thin; /* Firefox: slim scrollbar */
+  scrollbar-color: var(--primary) var(--gray-100); /* Firefox: thumb and track */
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm); /* Space for scrollbar */
+  animation: autoScroll 20s linear infinite; /* Auto-scroll animation */
+}
+
+/* Custom scrollbar for Webkit browsers */
+.services-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.services-slider::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 4px;
+}
+
+.services-slider::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.services-slider::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
 }
 
 .slider-track {
@@ -958,6 +988,8 @@ button, input, textarea {
   background-clip: padding-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
+
+
 
 .service-card::before {
   content: "";
@@ -1057,6 +1089,15 @@ button, input, textarea {
 .animate-on-scroll.animated {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes autoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% + 100vw)); /* Scroll to show all cards */
+  }
 }
 /* Portfolio Base Styles */
 .portfolio {
@@ -2890,7 +2931,6 @@ button, input, textarea {
 
     .services-slider .slider-track {
         animation-duration: 7s;
-        overflow-x: scroll;
     }
 
     .service-card {
