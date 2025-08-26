@@ -4522,12 +4522,13 @@ button, input, textarea {
 
     .futuristic-callback-content {
         padding: 1.2rem;
-        max-width: 280px;
+        max-width: 300px;
+        min-width: 300px;
         border-radius: var(--border-radius);
     }
 
     .futuristic-callback-header h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin-top: var(--spacing-sm);
         line-height: 1.3;
     }
@@ -4770,7 +4771,8 @@ button, input, textarea {
 
     .futuristic-callback-content {
         padding: var(--spacing-md);
-        max-width: 260px;
+        min-width: 300px; 
+        max-width: 300px;
     }
 
     .futuristic-callback-header h3 {
