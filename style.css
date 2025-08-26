@@ -926,29 +926,15 @@ button, input, textarea {
   overflow-x: auto; /* Enable horizontal thumb scrolling */
   scroll-snap-type: x mandatory; /* Snap cards into view */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
-  scrollbar-width: thin; /* Firefox: slim scrollbar */
+  scrollbar-width: none; /* Firefox: slim scrollbar */
   scrollbar-color: var(--primary) var(--gray-100); /* Firefox: thumb and track */
   padding-bottom: var(--spacing-sm); /* Space for scrollbar */
 }
 
 /* Custom scrollbar for Webkit browsers */
-/* Custom scrollbar for Webkit browsers */
+/* Hide scrollbar in Webkit browsers */
 .services-slider::-webkit-scrollbar {
-  height: 8px;
-}
-
-.services-slider::-webkit-scrollbar-track {
-  background: var(--gray-100);
-  border-radius: 4px;
-}
-
-.services-slider::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
-}
-
-.services-slider::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+  display: none;
 }
 
 
