@@ -601,3 +601,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial button state, alignment, and styles
     updateCarousel();
 });
+
+// JavaScript to duplicate cards for seamless looping
+function setupInfiniteScroll() {
+  const slider = document.getElementById('servicesSlider');
+  if (!slider) return;
+
+  const cards = slider.querySelectorAll('.service-card');
+  if (cards.length === 0) return;
+
+  // Duplicate all cards to create seamless loop
+  cards.forEach(card => {
+    const clone = card.cloneNode(true);
+    slider.appendChild(clone);
+  });
+
+  // Calculate total width of original cards
+  const totalWidth = Array.from(cards).reduce((sum, card) => {
+    return sum + card.offsetWidth + parseInt(getComputedStyle(slider).gap || 0);
+  }, 0);
+
+  // Update animation duration based on content width
+  const duration = (totalWidth / 100) * 2; // Adjust speed: 100px per 2 seconds
+  slider.style.animationDuration = `${duration}s`;
+}
+
+// Run on page load
+window.addEventListener('load', setupInfiniteScroll);
+
+// Re-run on resize to handle dynamic card sizes
+window.addEventListener('resize', setupInfiniteScroll);

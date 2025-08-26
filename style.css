@@ -881,7 +881,6 @@ button, input, textarea {
   overflow: hidden; /* Ensure section stays fixed */
 }
 
-
 .services-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -932,6 +931,7 @@ button, input, textarea {
   gap: var(--spacing-sm);
   padding-bottom: var(--spacing-sm); /* Space for scrollbar */
   animation: autoScroll 20s linear infinite; /* Auto-scroll animation */
+  will-change: transform; /* Optimize animation performance */
 }
 
 /* Custom scrollbar for Webkit browsers */
@@ -952,6 +952,7 @@ button, input, textarea {
 .services-slider::-webkit-scrollbar-thumb:hover {
   background: var(--primary-dark);
 }
+
 
 .slider-track {
   display: flex;
@@ -988,8 +989,6 @@ button, input, textarea {
   background-clip: padding-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-
-
 
 .service-card::before {
   content: "";
@@ -1096,9 +1095,10 @@ button, input, textarea {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-100% + 100vw)); /* Scroll to show all cards */
+    transform: translateX(calc(-50%)); /* Move half the total width for seamless loop */
   }
 }
+
 /* Portfolio Base Styles */
 .portfolio {
   padding: 3rem 2rem;
