@@ -3436,6 +3436,7 @@ button, input, textarea {
     .slider-track {
         animation-duration: 12s;
         margin-top: 0;
+        overflow-x: scroll;
     }
 
     #slider-text {
