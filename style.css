@@ -922,18 +922,16 @@ button, input, textarea {
 }
 
 .services-slider {
-  display: flex;
+  width: 100%;
   overflow-x: auto; /* Enable horizontal thumb scrolling */
   scroll-snap-type: x mandatory; /* Snap cards into view */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
   scrollbar-width: thin; /* Firefox: slim scrollbar */
   scrollbar-color: var(--primary) var(--gray-100); /* Firefox: thumb and track */
-  gap: var(--spacing-sm);
   padding-bottom: var(--spacing-sm); /* Space for scrollbar */
-  animation: autoScroll 20s linear infinite; /* Auto-scroll animation */
-  will-change: transform; /* Optimize animation performance */
 }
 
+/* Custom scrollbar for Webkit browsers */
 /* Custom scrollbar for Webkit browsers */
 .services-slider::-webkit-scrollbar {
   height: 8px;
@@ -956,21 +954,23 @@ button, input, textarea {
 
 .slider-track {
   display: flex;
-  animation: slide 8s linear infinite;
-  will-change: transform;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  gap: var(--spacing-sm);
+  animation: autoScroll 30s linear infinite; /* Slow auto-scroll */
+  will-change: transform; /* Optimize animation performance */
 }
 
-@keyframes slide {
+.services-slider:hover .slider-track {
+  animation-play-state: paused;
+}
+
+@keyframes autoScroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-50%)); /* Move half the total width for seamless loop */
   }
 }
-
 /* .services-slider:hover .slider-track {
     animation-play-state: paused;
 } */
@@ -1004,10 +1004,10 @@ button, input, textarea {
 }
 
 .service-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: #3b82f6;
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
 }
+
 
 .service-icon {
   width: 48px;
@@ -3465,10 +3465,9 @@ button, input, textarea {
         line-height: 1;
     }
 
-    /* Services Section */
-    .services {
-        padding: 0;
-    }
+  .services {
+    padding: var(--spacing-sm);
+  }
 
     .services-container {
         padding: 0;
