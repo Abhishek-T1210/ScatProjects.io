@@ -3073,7 +3073,7 @@ button, input, textarea {
     .futuristic-form-submit, .futuristic-whatsapp-button {
         width: 100%;
         min-width: auto;
-        height: 48px;
+        height: 44px;
         font-size: 0.9rem;
         border-radius: var(--border-radius);
         transition: var(--transition);
