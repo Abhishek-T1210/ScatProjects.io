@@ -4285,7 +4285,7 @@ button, input, textarea {
         font-size: 0.8rem;
         border-radius: var(--border-radius);
         transition: var(--transition);
-        min-height: 48px;
+        min-height: 50px;
     }
 
     .stats-containerx {
