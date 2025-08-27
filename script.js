@@ -631,3 +631,20 @@ window.addEventListener('load', setupInfiniteScroll);
 
 // Re-run on resize to handle dynamic card sizes
 window.addEventListener('resize', setupInfiniteScroll);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const steps = document.querySelectorAll('.xxprocess-step');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  steps.forEach((step) => observer.observe(step));
+});
