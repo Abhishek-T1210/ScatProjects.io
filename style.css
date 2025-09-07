@@ -1793,6 +1793,8 @@ button, input, textarea {
 .futuristic-callback-overlay.active {
   opacity: 1;
   visibility: visible;
+  /*remove this for the call back popup */
+  display: none;
 }
 
 .futuristic-callback-content {
@@ -5114,7 +5116,7 @@ button, input, textarea {
 
 .pig-form-group label {
     font-weight: 600;
-    color: var(--gray-800);
+    color: black;
     margin-bottom: var(--spacing-sm);
     font-size: 1rem;
     text-align: left;
@@ -5347,7 +5349,7 @@ button, input, textarea {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--gray-900);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 0px;
 }
 
 .idea-card p {
@@ -5360,12 +5362,14 @@ button, input, textarea {
 .book-now-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-md);
     background: var(--success);
     color: var(--white);
     border-radius: var(--border-radius);
     font-weight: 600;
+    width: 200px;
     font-size: 0.9rem;
     text-decoration: none;
     transition: var(--transition);
@@ -5437,26 +5441,28 @@ button, input, textarea {
     border-radius: 0px;
     }
     .pig-form { flex-direction: column; gap: var(--spacing-lg); padding: var(--spacing-md); }
-    .pig-form-group { min-width: auto; max-width: none; }
-    #tech-select, #sector-select { font-size: 0.95rem; padding: 12px }
+    .pig-form-group { min-width: auto; max-width: none; align-items: flex-start; }
+    #tech-select, #sector-select { font-size: 0.95rem; padding: 12px; border-color: cornflowerblue }
     #generate-btn { width: 100%; max-width: 220px; margin: 0 auto; font-size: 0.95rem; }
     .ai-generation { gap: var(--spacing-lg); padding: var(--spacing-md); max-width: 90%; }
-    .ai-chat { width: 100%; }
+    .ai-chat { width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px;}
     .carousel-container { padding: 0; width: 100%; }
     .carousel-track { gap: var(--spacing-lg); }
-    .idea-card { flex: 0 0 calc(50% - var(--spacing-lg) / 2); min-width: 180px; padding: var(--spacing-sm); }
-    .idea-card h4 { font-size: 1.1rem; }
-    .idea-card p { font-size: 0.9rem; }
+    .idea-card { flex: 0 0 calc(50% - var(--spacing-lg) / 2); min-width: 180px;  padding: 20px;  display: flex; justify-content: center; align-items: flex-end; }
+    .idea-card h4 { font-size: 1rem; }
+    .idea-card p { font-size: 0.8rem; }
     .prev-btn { left: 0; }
     .next-btn { right: 0; }
+    .powered-by { display: flex; justify-content: end; align-items: center; margin-top: 0; color: white; }
+    .typing-indicator { justify-content: center; }
 }
 
 @media (max-width: 500px) {
-    .idea-container { padding: var(--spacing-sm) 0; }
+    .idea-container { padding: var(--spacing-sm) 0; padding-bottom: 0%;}
     .pig-title { font-size: clamp(1.6rem, 4vw, 2rem); }
     .pig-description { font-size: 15px; }
     .pig-form { padding: 16px; gap: var(--spacing-md); }
-    .pig-form-group { min-width: auto; display: flex; justify-content: center; align-items: center; gap: 2px; flex-direction: column;}
+    .pig-form-group { min-width: auto; display: flex; justify-content: center; align-items: start; gap: 2px; flex-direction: column;}
     .carousel-container { padding: 0; }
     .carousel-track { gap: var(--spacing-md); }
     .idea-card { flex: 0 0 100%; min-width: auto; }
