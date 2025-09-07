@@ -651,139 +651,585 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const techSelect = document.getElementById('tech-select');
+    const sectorSelect = document.getElementById('sector-select');
     const generateBtn = document.getElementById('generate-btn');
+    const aiGeneration = document.getElementById('ai-generation');
     const loading = document.getElementById('loading');
     const results = document.getElementById('ideas-results');
+    const carouselTrack = document.getElementById('carousel-track');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const dotsContainer = document.getElementById('carousel-dots');
+
+    let currentIndex = 0;
+    let totalCards = 0;
 
     // Project ideas data
     const projectIdeas = {
-        'ai-ml': [
-            'AI-Powered Chatbot for Customer Support in E-commerce',
-            'Predictive Analytics for Stock Market Trends Using ML Models',
-            'Sentiment Analysis Tool for Social Media Feedback',
-            'Recommendation System for Personalized Movie Suggestions',
-            'Facial Recognition Attendance System for Schools',
-            'Voice Assistant for Smart Home Automation',
-            'Anomaly Detection in Network Traffic for Cybersecurity',
-            'Image Classification for Medical Diagnosis Assistance',
-            'Natural Language Processing for Resume Screening',
-            'Machine Learning-Based Fraud Detection in Banking Transactions'
-        ],
-        'web-dev': [
-            'Responsive E-commerce Website with Payment Integration',
-            'Task Management Dashboard with Real-Time Collaboration',
-            'Portfolio Website for Freelance Developers with CMS',
-            'Online Learning Platform with Video Streaming',
-            'Social Media Analytics Dashboard',
-            'Event Booking System with Calendar Integration',
-            'Blogging Platform with SEO Optimization',
-            'Real Estate Listing Website with Map Views',
-            'Fitness Tracker Web App with Progress Charts',
-            'Recipe Sharing Community with User Ratings'
-        ],
-        'mobile-app': [
-            'Fitness Tracking App with GPS Integration',
-            'Expense Manager App with Receipt Scanning',
-            'Language Learning App with Gamification',
-            'Local Delivery Service App with Real-Time Tracking',
-            'Mental Health Journal App with Mood Analysis',
-            'Recipe App with Offline Access and Shopping Lists',
-            'Event Planner App with Social Sharing',
-            'Book Recommendation App Using User Preferences',
-            'Travel Planner App with Itinerary Builder',
-            'Habit Building App with Reminders and Streaks'
-        ],
-        'deep-learning': [
-            'Object Detection System for Autonomous Vehicles',
-            'Generative Adversarial Network for Image Synthesis',
-            'Deep Learning Model for Handwritten Digit Recognition',
-            'Neural Network for Speech-to-Text Transcription',
-            'Convolutional Neural Network for Plant Disease Detection',
-            'Recurrent Neural Network for Time Series Forecasting',
-            'Deep Reinforcement Learning for Game AI',
-            'Autoencoder for Anomaly Detection in Data',
-            'Transformer Model for Machine Translation',
-            'Deep Learning-Based Style Transfer for Images'
-        ],
-        'blockchain': [
-            'Decentralized Voting System Using Smart Contracts',
-            'NFT Marketplace Platform on Ethereum',
-            'Supply Chain Management with Blockchain Tracking',
-            'Cryptocurrency Wallet App with Multi-Signature Support',
-            'Blockchain-Based Identity Verification System',
-            'Decentralized File Storage Solution',
-            'Tokenized Asset Management Platform',
-            'Smart Contract for Automated Insurance Claims',
-            'Blockchain Voting for Corporate Governance',
-            'Peer-to-Peer Lending Platform on Blockchain'
-        ],
-        'iot': [
-            'Smart Home Automation System with Voice Control',
-            'IoT-Based Environmental Monitoring Station',
-            'Wearable Health Tracker with Real-Time Alerts',
-            'Agriculture IoT System for Soil Moisture Monitoring',
-            'Smart Parking System Using Sensor Networks',
-            'Energy Management System for Smart Grids',
-            'IoT Device for Elderly Care Monitoring',
-            'Traffic Management System with IoT Sensors',
-            'Waste Management Bin with Fill-Level Sensors',
-            'Remote Patient Monitoring System for Hospitals'
-        ]
+        'ai-ml': {
+            'agriculture': [
+                'AI-Driven Crop Disease Detection Using Image Recognition',
+                'Predictive Analytics for Yield Optimization in Farming',
+                'Smart Irrigation System with ML Weather Forecasting',
+                'Pest Detection and Monitoring Using Computer Vision',
+                'Soil Health Analysis with Machine Learning Models',
+                'Automated Harvesting Robot Control System',
+                'Livestock Health Monitoring with AI Sensors',
+                'Precision Agriculture Drone Path Optimization',
+                'Farm Supply Chain Prediction and Management',
+                'AI-Based Fertilizer Recommendation System'
+            ],
+            'medical': [
+                'AI-Powered Diagnostic Tool for Disease Identification',
+                'Predictive Modeling for Patient Readmission Risks',
+                'Medical Image Analysis for Tumor Detection',
+                'Drug Interaction Prediction Using Machine Learning',
+                'Patient Triage System with Symptom Analysis',
+                'Mental Health Assessment Chatbot',
+                'Wearable Data Analysis for Early Disease Detection',
+                'Personalized Treatment Recommendation Engine',
+                'Epidemic Outbreak Prediction Model',
+                'Virtual Health Assistant for Remote Monitoring'
+            ],
+            'business': [
+                'Customer Churn Prediction for Retail Businesses',
+                'Sales Forecasting with Time Series Analysis',
+                'Fraud Detection in Financial Transactions',
+                'Market Trend Analysis Using Sentiment Mining',
+                'Inventory Optimization with Demand Prediction',
+                'Personalized Marketing Recommendation System',
+                'Employee Performance Analytics Dashboard',
+                'Supply Chain Risk Assessment Model',
+                'Pricing Optimization Using ML Algorithms',
+                'Competitor Analysis with Web Scraping and AI'
+            ],
+            'education': [
+                'Personalized Learning Path Generator Using AI',
+                'Automated Essay Grading System',
+                'Student Performance Prediction Model',
+                'AI-Powered Virtual Tutor for Math',
+                'Language Proficiency Assessment Tool',
+                'Plagiarism Detection Using ML',
+                'Learning Style Identification System',
+                'AI Chatbot for Student Queries',
+                'Course Recommendation Engine',
+                'Automated Attendance System with Facial Recognition'
+            ],
+            'environment': [
+                'AI for Air Quality Prediction and Monitoring',
+                'Wildlife Conservation Tracking Using ML',
+                'Deforestation Detection with Satellite Imagery',
+                'Carbon Footprint Calculator Using AI',
+                'Waste Classification System with Computer Vision',
+                'Renewable Energy Optimization Model',
+                'Water Quality Analysis Using ML Sensors',
+                'Climate Impact Prediction for Urban Areas',
+                'AI-Driven Recycling Recommendation System',
+                'Biodiversity Monitoring with AI Analytics'
+            ],
+            'transportation': [
+                'Traffic Flow Prediction Using Machine Learning',
+                'AI-Based Route Optimization for Delivery',
+                'Accident Risk Assessment Model',
+                'Public Transport Demand Forecasting',
+                'Autonomous Vehicle Path Planning System',
+                'Parking Space Availability Predictor',
+                'Fleet Maintenance Scheduling Using AI',
+                'Traffic Signal Optimization with ML',
+                'Ride-Sharing Demand Prediction Model',
+                'AI for Logistics Supply Chain Optimization'
+            ]
+        },
+        'web-dev': {
+            'agriculture': [
+                'Farm Management Dashboard with Real-Time Monitoring',
+                'Online Marketplace for Agricultural Products',
+                'Crop Planning Web Application with Calendar Integration',
+                'Soil Testing Results Portal for Farmers',
+                'Agricultural Supply Chain Tracking System',
+                'Weather-Based Farming Advisory Website',
+                'Livestock Management and Health Records Portal',
+                'Farm Equipment Rental Booking Platform',
+                'Organic Produce Certification Verification Site',
+                'Rural Market Price Comparison Tool'
+            ],
+            'medical': [
+                'Telemedicine Platform with Video Consultation',
+                'Patient Health Record Management System',
+                'Appointment Scheduling and Reminder Portal',
+                'Medical Inventory and Supply Chain Dashboard',
+                'Symptom Checker and Triage Web App',
+                'Hospital Bed Availability Tracker',
+                'Prescription Management and Refill System',
+                'Health Insurance Claim Processing Portal',
+                'Medical Research Data Collaboration Platform',
+                'Virtual Reality Therapy Session Booking Site'
+            ],
+            'business': [
+                'E-commerce Platform with Inventory Management',
+                'CRM System for Customer Relationship Management',
+                'Financial Dashboard for Business Analytics',
+                'Project Management Tool with Team Collaboration',
+                'Invoice and Billing Automation System',
+                'Employee HR Management Portal',
+                'Market Research and Survey Platform',
+                'Supply Chain Visibility Dashboard',
+                'Business Intelligence Reporting Tool',
+                'Corporate Event Management Website'
+            ],
+            'education': [
+                'Online Learning Platform with Video Courses',
+                'Student Progress Tracking Dashboard',
+                'Interactive Quiz and Assessment Web App',
+                'Virtual Classroom Collaboration Tool',
+                'E-Library for Educational Resources',
+                'Course Enrollment and Payment Portal',
+                'Teacher-Student Communication Platform',
+                'Learning Analytics Dashboard for Educators',
+                'Gamified Learning Web Application',
+                'Parent Portal for Student Performance Monitoring'
+            ],
+            'environment': [
+                'Carbon Footprint Tracking Web App',
+                'Environmental Monitoring Dashboard',
+                'Recycling Resource Finder Website',
+                'Sustainable Living Tips Portal',
+                'Wildlife Conservation Donation Platform',
+                'Air Quality Index Visualization Tool',
+                'Eco-Friendly Product Marketplace',
+                'Community Clean-Up Event Organizer',
+                'Renewable Energy Project Tracker',
+                'Water Conservation Education Website'
+            ],
+            'transportation': [
+                'Ride-Sharing Web Platform with Real-Time Tracking',
+                'Public Transport Schedule and Ticketing Site',
+                'Logistics Management Dashboard',
+                'Parking Finder and Reservation Web App',
+                'Traffic Monitoring and Reporting Tool',
+                'Fleet Management Web System',
+                'Carpool Coordination Platform',
+                'Route Planner for Delivery Services',
+                'Transport Emissions Calculator Website',
+                'Bike-Sharing Availability Tracker'
+            ]
+        },
+        'mobile-app': {
+            'agriculture': [
+                'Mobile App for Farm Record Keeping and Analytics',
+                'Crop Identification App Using Camera Scan',
+                'Farmer Marketplace App for Direct Sales',
+                'Weather and Advisory App for Rural Farmers',
+                'Livestock Management Mobile Solution',
+                'Soil Testing Results Mobile Viewer',
+                'Pest Control Advisory App with AR',
+                'Farm Labor Management Scheduling App',
+                'Agricultural Loan Application Mobile Portal',
+                'Harvest Tracking and Yield Calculator App'
+            ],
+            'medical': [
+                'Mobile Health Tracker with Symptom Logging',
+                'Medication Reminder and Adherence App',
+                'Doctor Appointment Booking Mobile App',
+                'Fitness and Wellness Coaching Application',
+                'Mental Health Support Chat App',
+                'Emergency Medical Response Locator',
+                'Diet and Nutrition Planning Mobile Tool',
+                'Blood Donation Donor Matching App',
+                'Remote Patient Monitoring Dashboard',
+                'Medical Records Access Mobile Portal'
+            ],
+            'business': [
+                'Mobile CRM for On-the-Go Sales Teams',
+                'Expense Tracking and Reporting App',
+                'Business Networking and Lead Generation App',
+                'Inventory Management Mobile Solution',
+                'Project Time Tracking and Billing App',
+                'Corporate Event RSVP and Management App',
+                'Market Research Survey Mobile Collector',
+                'Financial Calculator and Budgeting Tool',
+                'Team Collaboration Chat App for Businesses',
+                'Customer Feedback Collection Mobile App'
+            ],
+            'education': [
+                'Mobile Learning App with Offline Content',
+                'Flashcard Study App for Exam Prep',
+                'Language Learning App with Speech Recognition',
+                'Math Problem Solver with AR',
+                'Virtual Study Group Collaboration App',
+                'Course Progress Tracker Mobile Tool',
+                'Educational Game App for Kids',
+                'Parent-Teacher Communication App',
+                'Scholarship Finder Mobile Portal',
+                'Interactive Science Experiment Simulator'
+            ],
+            'environment': [
+                'Mobile App for Carbon Footprint Tracking',
+                'Wildlife Sighting Reporting App',
+                'Recycling Guide with Barcode Scanner',
+                'Eco-Challenge App for Sustainable Habits',
+                'Air Quality Monitoring Mobile Tool',
+                'Tree Planting Event Organizer App',
+                'Water Usage Tracker for Households',
+                'Environmental News and Alerts App',
+                'Renewable Energy Project Finder',
+                'Mobile App for Community Clean-Up Coordination'
+            ],
+            'transportation': [
+                'Real-Time Public Transport Tracking App',
+                'Ride-Sharing Mobile App with Payment Integration',
+                'Parking Finder Mobile Application',
+                'Traffic Alert and Navigation App',
+                'Fleet Maintenance Mobile Tracker',
+                'Carpool Organizer App for Commuters',
+                'Bike-Sharing Mobile Booking Tool',
+                'Logistics Delivery Tracking App',
+                'Transport Emissions Calculator Mobile',
+                'EV Charging Station Finder App'
+            ]
+        },
+        'deep-learning': {
+            'agriculture': [
+                'Deep Learning Model for Crop Yield Prediction',
+                'Advanced Image Segmentation for Weed Detection',
+                'Neural Network for Disease Spread Modeling in Crops',
+                'GAN-Based Synthetic Data Generation for Farming',
+                'RNN for Time-Series Weather Impact Analysis',
+                'CNN for Satellite Image Crop Health Monitoring',
+                'Autoencoder for Anomaly Detection in Farm Sensors',
+                'Transformer Model for Multilingual Farming Advice',
+                'Deep Reinforcement Learning for Optimal Planting',
+                'Style Transfer for Visualizing Farm Scenarios'
+            ],
+            'medical': [
+                'Deep Learning for MRI Image Tumor Segmentation',
+                'GAN for Synthetic Medical Image Generation',
+                'RNN for ECG Signal Anomaly Detection',
+                'CNN for Retinal Disease Diagnosis from Scans',
+                'Transformer for Electronic Health Record Analysis',
+                'Autoencoder for Fraudulent Claim Detection',
+                'Deep RL for Personalized Treatment Planning',
+                'Style Transfer for Medical Visualization',
+                'LSTM for Patient Vital Signs Prediction',
+                'Vision Transformer for X-Ray Analysis'
+            ],
+            'business': [
+                'Deep Learning for Stock Price Forecasting',
+                'GAN for Synthetic Financial Data Creation',
+                'CNN for Document Classification in Business',
+                'RNN for Sales Time Series Prediction',
+                'Transformer for Market Sentiment Analysis',
+                'Autoencoder for Credit Card Fraud Detection',
+                'Deep RL for Portfolio Optimization',
+                'Style Transfer for Business Report Visualization',
+                'LSTM for Customer Behavior Prediction',
+                'Vision Models for Receipt OCR in Accounting'
+            ],
+            'education': [
+                'Deep Learning for Adaptive Learning Systems',
+                'GAN for Generating Practice Questions',
+                'RNN for Student Engagement Analysis',
+                'CNN for Handwritten Answer Recognition',
+                'Transformer for Automated Essay Scoring',
+                'Autoencoder for Detecting Cheating Patterns',
+                'Deep RL for Personalized Course Recommendations',
+                'Style Transfer for Educational Content Visualization',
+                'LSTM for Student Performance Prediction',
+                'Vision Models for Textbook Image Analysis'
+            ],
+            'environment': [
+                'Deep Learning for Climate Pattern Prediction',
+                'GAN for Synthetic Environmental Data',
+                'CNN for Deforestation Image Analysis',
+                'RNN for Pollution Trend Forecasting',
+                'Transformer for Wildlife Behavior Analysis',
+                'Autoencoder for Environmental Anomaly Detection',
+                'Deep RL for Energy Grid Optimization',
+                'Style Transfer for Eco-Impact Visualization',
+                'LSTM for Water Resource Prediction',
+                'Vision Models for Waste Sorting Automation'
+            ],
+            'transportation': [
+                'Deep Learning for Traffic Flow Optimization',
+                'GAN for Synthetic Traffic Scenarios',
+                'CNN for Vehicle Damage Assessment',
+                'RNN for Transport Demand Forecasting',
+                'Transformer for Route Planning Analysis',
+                'Autoencoder for Traffic Anomaly Detection',
+                'Deep RL for Autonomous Driving Systems',
+                'Style Transfer for Traffic Visualization',
+                'LSTM for Fleet Maintenance Prediction',
+                'Vision Models for License Plate Recognition'
+            ]
+        },
+        'blockchain': {
+            'agriculture': [
+                'Blockchain for Traceable Organic Produce Supply Chain',
+                'Smart Contracts for Farm-to-Table Transactions',
+                'Decentralized Land Registry for Agricultural Properties',
+                'Tokenized Carbon Credits for Sustainable Farming',
+                'Blockchain-Based Crop Insurance Claims',
+                'Peer-to-Peer Seed and Equipment Trading Platform',
+                'Immutable Records for Livestock Pedigree',
+                'Decentralized Cooperative Farming Governance',
+                'Supply Chain Finance Using Blockchain Tokens',
+                'Transparent Subsidy Distribution System'
+            ],
+            'medical': [
+                'Blockchain for Secure Patient Data Sharing',
+                'Smart Contracts for Automated Insurance Payouts',
+                'Decentralized Clinical Trial Data Management',
+                'Tokenized Health Records Ownership',
+                'Immutable Drug Supply Chain Tracking',
+                'Blockchain for Telemedicine Payment Security',
+                'Secure Credentialing for Medical Professionals',
+                'Decentralized Health Research Data Marketplace',
+                'Patient Consent Management on Blockchain',
+                'Pharma Counterfeit Detection System'
+            ],
+            'business': [
+                'Blockchain for Secure Supply Chain Finance',
+                'Smart Contracts for Automated Vendor Payments',
+                'Decentralized Corporate Voting System',
+                'Tokenized Equity and Asset Management',
+                'Immutable Audit Trails for Compliance',
+                'Peer-to-Peer Business Lending Platform',
+                'Blockchain-Based Loyalty Reward Systems',
+                'Secure Cross-Border Trade Settlements',
+                'Decentralized Identity for Business Verification',
+                'Smart Contract Escrow for B2B Transactions'
+            ],
+            'education': [
+                'Blockchain for Secure Credential Verification',
+                'Smart Contracts for Scholarship Disbursement',
+                'Decentralized Student Record Management',
+                'Tokenized Course Completion Certificates',
+                'Immutable Academic Research Publication',
+                'Blockchain-Based Peer Review System',
+                'Secure Exam Result Storage and Sharing',
+                'Decentralized Learning Platform Governance',
+                'Tokenized Funding for Educational Projects',
+                'Blockchain for Student Loan Management'
+            ],
+            'environment': [
+                'Blockchain for Carbon Credit Trading',
+                'Smart Contracts for Renewable Energy Trading',
+                'Immutable Environmental Impact Records',
+                'Tokenized Waste Recycling Incentives',
+                'Decentralized Conservation Funding Platform',
+                'Blockchain for Transparent Green Certifications',
+                'Supply Chain Tracking for Sustainable Products',
+                'Peer-to-Peer Energy Sharing System',
+                'Blockchain for Wildlife Protection Funding',
+                'Decentralized Eco-Project Crowdfunding'
+            ],
+            'transportation': [
+                'Blockchain for Secure Logistics Tracking',
+                'Smart Contracts for Freight Payment Automation',
+                'Decentralized Vehicle Ownership Records',
+                'Tokenized Ride-Sharing Reward System',
+                'Immutable Fleet Maintenance Logs',
+                'Blockchain for Transparent Toll Collection',
+                'Supply Chain Logistics on Blockchain',
+                'Decentralized Car Rental Platform',
+                'Blockchain for Public Transport Ticketing',
+                'Secure Cargo Tracking System'
+            ]
+        },
+        'iot': {
+            'agriculture': [
+                'IoT Sensor Network for Precision Irrigation',
+                'Smart Greenhouse Monitoring and Control System',
+                'Drone-Based IoT for Crop Health Surveillance',
+                'Livestock Tracking with IoT Wearables',
+                'Soil Moisture and Nutrient IoT Monitoring',
+                'Automated Farm Gate Access Control',
+                'Weather Station IoT for Local Forecasting',
+                'IoT-Enabled Harvest Yield Prediction',
+                'Remote Barn Climate Control System',
+                'Pest Trap IoT Alert System'
+            ],
+            'medical': [
+                'IoT Wearables for Continuous Patient Monitoring',
+                'Smart Pill Dispenser with Adherence Tracking',
+                'Hospital Room IoT for Environmental Control',
+                'Remote Vital Signs Monitoring Device',
+                'IoT-Enabled Infusion Pump Management',
+                'Asset Tracking for Medical Equipment',
+                'Fall Detection IoT for Elderly Care',
+                'Temperature-Controlled Drug Storage IoT',
+                'Bedside Patient Call System with IoT',
+                'IoT for Hospital Hygiene Monitoring'
+            ],
+            'business': [
+                'IoT for Inventory and Stock Level Monitoring',
+                'Smart Office Lighting and Energy Management',
+                'Asset Tracking IoT for Fleet Vehicles',
+                'Employee Attendance IoT System',
+                'Conference Room Booking with IoT Sensors',
+                'Retail Shelf Stock Monitoring IoT',
+                'IoT-Enabled Smart Vending Machines',
+                'Building Security Access Control IoT',
+                'Energy Consumption Analytics for Offices',
+                'Customer Footfall Tracking IoT System'
+            ],
+            'education': [
+                'IoT for Smart Classroom Attendance Tracking',
+                'Environmental Monitoring for School Facilities',
+                'IoT-Enabled Interactive Learning Boards',
+                'Asset Tracking for Educational Equipment',
+                'Smart Lighting for Study Rooms',
+                'IoT for Campus Security Monitoring',
+                'Temperature Control for School Labs',
+                'IoT-Based Library Book Tracking',
+                'Smart Lockers for Student Storage',
+                'IoT for School Bus Tracking'
+            ],
+            'environment': [
+                'IoT for Air Quality Monitoring Networks',
+                'Smart Waste Bins with Fill-Level Sensors',
+                'Water Quality Monitoring IoT System',
+                'Wildlife Tracking with IoT Devices',
+                'IoT for Renewable Energy Grid Monitoring',
+                'Environmental Sensor Network for Forests',
+                'Smart Irrigation for Urban Green Spaces',
+                'IoT for Noise Pollution Monitoring',
+                'Flood Detection and Alert IoT System',
+                'IoT for Sustainable Energy Consumption'
+            ],
+            'transportation': [
+                'IoT for Real-Time Traffic Monitoring',
+                'Smart Parking IoT System with Sensors',
+                'Fleet Vehicle Maintenance IoT Tracker',
+                'IoT for Public Transport Passenger Counting',
+                'Smart Traffic Lights with IoT Control',
+                'EV Charging Station Monitoring IoT',
+                'IoT for Logistics Temperature Control',
+                'Bicycle Sharing IoT Tracking System',
+                'IoT for Road Condition Monitoring',
+                'Smart Toll Collection IoT System'
+            ]
+        }
     };
 
     generateBtn.addEventListener('click', () => {
         const selectedTech = techSelect.value;
-        if (!selectedTech) {
-            alert('Please select a technology first!');
+        const selectedSector = sectorSelect.value;
+        
+        if (!selectedTech || !selectedSector) {
+            alert('Please select both technology and sector!');
             return;
         }
 
-        // Hide results if visible
+        // Hide previous results
         results.classList.add('hidden');
-        results.innerHTML = '';
+        carouselTrack.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        currentIndex = 0;
 
-        // Show loading
-        loading.classList.remove('hidden');
-        generateBtn.disabled = true;
-        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-
-        // Simulate loading for 3 seconds
+        // Show AI generation mock
+        aiGeneration.classList.remove('hidden');
+        document.getElementById('ai-tech').textContent = selectedTech.replace('-', ' ').toUpperCase();
+        document.getElementById('ai-sector').textContent = selectedSector.charAt(0).toUpperCase() + selectedSector.slice(1);
+        
+        // Simulate AI thinking for 2 seconds
         setTimeout(() => {
-            loading.classList.add('hidden');
-            generateBtn.disabled = false;
-            generateBtn.innerHTML = '<i class="fas fa-lightbulb"></i> Generate Ideas';
+            aiGeneration.classList.add('hidden');
+            loading.classList.remove('hidden');
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI Generating...';
 
-            // Get ideas for selected tech
-            const ideas = projectIdeas[selectedTech];
-            if (ideas && ideas.length > 0) {
-                ideas.forEach((idea, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'idea-card';
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.innerHTML = `
-                        <h4>${index + 1}. ${idea}</h4>
-                        <p>Explore this project to enhance your skills in ${selectedTech.toUpperCase()} and create a standout portfolio piece.</p>
-                    `;
-                    results.appendChild(card);
-                });
-                results.classList.remove('hidden');
-            } else {
-                results.innerHTML = '<p>No ideas found for the selected technology. Please try another.</p>';
-                results.classList.remove('hidden');
-            }
-        }, 3000);
+            // Simulate loading for 3 seconds
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-brain"></i> Generate AI Ideas';
+
+                // Get filtered ideas
+                const ideas = projectIdeas[selectedTech]?.[selectedSector] || [];
+                if (ideas.length > 0) {
+                    totalCards = ideas.length;
+                    ideas.forEach((idea, index) => {
+                        const card = document.createElement('div');
+                        card.className = `idea-card ${selectedTech}`;
+                        const whatsappMessage = encodeURIComponent(`I want to order a project: ${idea} (${selectedTech.toUpperCase()}, ${selectedSector.charAt(0).toUpperCase() + selectedSector.slice(1)})`);
+                        card.innerHTML = `
+                            <h4>${index + 1}. ${idea}</h4>
+                            <p>AI Suggestion: This project leverages ${selectedTech.toUpperCase()} to address challenges in the ${selectedSector} sector.</p>
+                            <a href="https://wa.me/919819833605?text=${whatsappMessage}" class="book-now-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </a>
+                        `;
+                        carouselTrack.appendChild(card);
+                    });
+
+                    // Create dots
+                    const slidesCount = Math.ceil(totalCards / 3);
+                    for (let i = 0; i < slidesCount; i++) {
+                        const dot = document.createElement('span');
+                        dot.className = 'dot-indicator';
+                        dot.addEventListener('click', () => goToSlide(i));
+                        dotsContainer.appendChild(dot);
+                    }
+                    updateCarousel();
+                    results.classList.remove('hidden');
+                } else {
+                    carouselTrack.innerHTML = '<p class="no-ideas">AI could not generate ideas for this combination. Try different selections!</p>';
+                    results.classList.remove('hidden');
+                }
+            }, 3000);
+        }, 2000);
     });
 
-    // Optional: Auto-generate on selection change for enhanced UX
-    techSelect.addEventListener('change', () => {
-        if (techSelect.value) {
-            generateBtn.disabled = false;
-        } else {
-            generateBtn.disabled = true;
-            results.classList.add('hidden');
+    // Carousel functionality
+    function updateCarousel() {
+        const cardWidth = carouselTrack.children[0]?.offsetWidth || 0;
+        const gap = 16; // 1rem gap
+        const visibleCards = window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1;
+        const slideWidth = (cardWidth + gap) * visibleCards - gap;
+        carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        
+        // Update dots
+        document.querySelectorAll('.dot-indicator').forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+
+        // Update buttons
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === Math.ceil(totalCards / (window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1)) - 1;
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
         }
     });
 
+    nextBtn.addEventListener('click', () => {
+        const visibleCards = window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1;
+        if (currentIndex < Math.ceil(totalCards / visibleCards) - 1) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    // Update carousel on window resize
+    window.addEventListener('resize', updateCarousel);
+
+    // Enable button only when both selections are made
+    function checkSelections() {
+        generateBtn.disabled = !techSelect.value || !sectorSelect.value;
+    }
+
+    techSelect.addEventListener('change', checkSelections);
+    sectorSelect.addEventListener('change', checkSelections);
+
     // Initial state
-    generateBtn.disabled = true;
+    checkSelections();
 });

@@ -642,37 +642,73 @@ document.addEventListener("DOMContentLoaded", function() {
   </div>
 </section>
 
- <section class="project-idea-generator" id="project-ideas">
+<section class="project-idea-generator" id="project-ideas">
     <div class="idea-container">
-      <div class="section-header">
-        <h2 class="section-title">Project Idea Generator</h2>
-        <p class="section-description">Discover innovative project ideas tailored to your chosen technology. Select a category and generate 10 unique ideas to kickstart your academic or professional journey!</p>
-      </div>
-      <div class="generator-form">
-        <div class="form-group">
-          <label for="tech-select">Select Technology</label>
-          <select id="tech-select" class="form-input">
-            <option value="">Choose a technology...</option>
-            <option value="ai-ml">AI/ML</option>
-            <option value="web-dev">Web Development</option>
-            <option value="mobile-app">Mobile App</option>
-            <option value="deep-learning">Deep Learning</option>
-            <option value="blockchain">Blockchain</option>
-            <option value="iot">IoT</option>
-          </select>
+        <div class="pig-header">
+            <h2 class="pig-title">AI-Powered Project Idea Generator</h2>
+            <p class="pig-description">Unlock innovative project ideas tailored to your technology and sector. Let our AI craft the perfect suggestion for your next big project!</p>
         </div>
-        <button id="generate-btn" class="btn btn-primary">
-          <i class="fas fa-lightbulb"></i>
-          Generate Ideas
-        </button>
-      </div>
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Generating ideas... Please wait</p>
-      </div>
-      <div id="ideas-results" class="ideas-grid hidden"></div>
+        <div class="pig-form">
+            <div class="pig-form-group">
+                <label for="tech-select">Technology</label>
+                <select id="tech-select" class="form-input">
+                    <option value="">Select technology...</option>
+                    <option value="ai-ml">AI/ML</option>
+                    <option value="web-dev">Web Development</option>
+                    <option value="mobile-app">Mobile App</option>
+                    <option value="deep-learning">Deep Learning</option>
+                    <option value="blockchain">Blockchain</option>
+                    <option value="iot">IoT</option>
+                </select>
+            </div>
+            <div class="pig-form-group">
+                <label for="sector-select">Sector</label>
+                <select id="sector-select" class="form-input">
+                    <option value="">Select sector...</option>
+                    <option value="agriculture">Agriculture</option>
+                    <option value="medical">Medical/Healthcare</option>
+                    <option value="business">Business/Finance</option>
+                    <option value="education">Education</option>
+                    <option value="environment">Environment/Sustainability</option>
+                    <option value="transportation">Transportation</option>
+                </select>
+            </div>
+            <button id="generate-btn" class="btn btn-primary">
+                <i class="fas fa-brain"></i>
+                Generate AI Ideas
+            </button>
+        </div>
+        <div id="ai-generation" class="ai-generation hidden">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-chat">
+                <div class="ai-message">🤖 AI Assistant: Processing <span id="ai-tech"></span> for <span id="ai-sector"></span> sector...</div>
+                <div class="typing-indicator">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+        <div id="loading" class="pig-loading hidden">
+            <div class="pig-spinner"></div>
+            <p>AI is crafting your ideas...</p>
+        </div>
+        <div id="ideas-results" class="ideas-carousel hidden">
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" id="prev-btn" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-track" id="carousel-track"></div>
+                <button class="carousel-btn next-btn" id="next-btn" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
     </div>
-  </section>
+</section>
     
 <section class="contact" id="contact">
     <div class="contact-container">
