@@ -642,16 +642,37 @@ document.addEventListener("DOMContentLoaded", function() {
   </div>
 </section>
 
-    <section class="cta" id="cta">
-        <div class="cta-container">
-            <h2>Ready to Transform Your Business?</h2>
-            <p>Partner with ScatProjects.io to leverage cutting-edge technology and achieve unparalleled success. Let's build the future together.</p>
-            <a href="#contact" class="btn btn-primary">
-                <i class="fas fa-rocket"></i>
-                Get Started Now
-            </a>
+ <section class="project-idea-generator" id="project-ideas">
+    <div class="idea-container">
+      <div class="section-header">
+        <h2 class="section-title">Project Idea Generator</h2>
+        <p class="section-description">Discover innovative project ideas tailored to your chosen technology. Select a category and generate 10 unique ideas to kickstart your academic or professional journey!</p>
+      </div>
+      <div class="generator-form">
+        <div class="form-group">
+          <label for="tech-select">Select Technology</label>
+          <select id="tech-select" class="form-input">
+            <option value="">Choose a technology...</option>
+            <option value="ai-ml">AI/ML</option>
+            <option value="web-dev">Web Development</option>
+            <option value="mobile-app">Mobile App</option>
+            <option value="deep-learning">Deep Learning</option>
+            <option value="blockchain">Blockchain</option>
+            <option value="iot">IoT</option>
+          </select>
         </div>
-    </section>
+        <button id="generate-btn" class="btn btn-primary">
+          <i class="fas fa-lightbulb"></i>
+          Generate Ideas
+        </button>
+      </div>
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Generating ideas... Please wait</p>
+      </div>
+      <div id="ideas-results" class="ideas-grid hidden"></div>
+    </div>
+  </section>
     
 <section class="contact" id="contact">
     <div class="contact-container">

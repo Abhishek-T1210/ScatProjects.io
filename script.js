@@ -648,3 +648,142 @@ document.addEventListener('DOMContentLoaded', () => {
 
   steps.forEach((step) => observer.observe(step));
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const techSelect = document.getElementById('tech-select');
+    const generateBtn = document.getElementById('generate-btn');
+    const loading = document.getElementById('loading');
+    const results = document.getElementById('ideas-results');
+
+    // Project ideas data
+    const projectIdeas = {
+        'ai-ml': [
+            'AI-Powered Chatbot for Customer Support in E-commerce',
+            'Predictive Analytics for Stock Market Trends Using ML Models',
+            'Sentiment Analysis Tool for Social Media Feedback',
+            'Recommendation System for Personalized Movie Suggestions',
+            'Facial Recognition Attendance System for Schools',
+            'Voice Assistant for Smart Home Automation',
+            'Anomaly Detection in Network Traffic for Cybersecurity',
+            'Image Classification for Medical Diagnosis Assistance',
+            'Natural Language Processing for Resume Screening',
+            'Machine Learning-Based Fraud Detection in Banking Transactions'
+        ],
+        'web-dev': [
+            'Responsive E-commerce Website with Payment Integration',
+            'Task Management Dashboard with Real-Time Collaboration',
+            'Portfolio Website for Freelance Developers with CMS',
+            'Online Learning Platform with Video Streaming',
+            'Social Media Analytics Dashboard',
+            'Event Booking System with Calendar Integration',
+            'Blogging Platform with SEO Optimization',
+            'Real Estate Listing Website with Map Views',
+            'Fitness Tracker Web App with Progress Charts',
+            'Recipe Sharing Community with User Ratings'
+        ],
+        'mobile-app': [
+            'Fitness Tracking App with GPS Integration',
+            'Expense Manager App with Receipt Scanning',
+            'Language Learning App with Gamification',
+            'Local Delivery Service App with Real-Time Tracking',
+            'Mental Health Journal App with Mood Analysis',
+            'Recipe App with Offline Access and Shopping Lists',
+            'Event Planner App with Social Sharing',
+            'Book Recommendation App Using User Preferences',
+            'Travel Planner App with Itinerary Builder',
+            'Habit Building App with Reminders and Streaks'
+        ],
+        'deep-learning': [
+            'Object Detection System for Autonomous Vehicles',
+            'Generative Adversarial Network for Image Synthesis',
+            'Deep Learning Model for Handwritten Digit Recognition',
+            'Neural Network for Speech-to-Text Transcription',
+            'Convolutional Neural Network for Plant Disease Detection',
+            'Recurrent Neural Network for Time Series Forecasting',
+            'Deep Reinforcement Learning for Game AI',
+            'Autoencoder for Anomaly Detection in Data',
+            'Transformer Model for Machine Translation',
+            'Deep Learning-Based Style Transfer for Images'
+        ],
+        'blockchain': [
+            'Decentralized Voting System Using Smart Contracts',
+            'NFT Marketplace Platform on Ethereum',
+            'Supply Chain Management with Blockchain Tracking',
+            'Cryptocurrency Wallet App with Multi-Signature Support',
+            'Blockchain-Based Identity Verification System',
+            'Decentralized File Storage Solution',
+            'Tokenized Asset Management Platform',
+            'Smart Contract for Automated Insurance Claims',
+            'Blockchain Voting for Corporate Governance',
+            'Peer-to-Peer Lending Platform on Blockchain'
+        ],
+        'iot': [
+            'Smart Home Automation System with Voice Control',
+            'IoT-Based Environmental Monitoring Station',
+            'Wearable Health Tracker with Real-Time Alerts',
+            'Agriculture IoT System for Soil Moisture Monitoring',
+            'Smart Parking System Using Sensor Networks',
+            'Energy Management System for Smart Grids',
+            'IoT Device for Elderly Care Monitoring',
+            'Traffic Management System with IoT Sensors',
+            'Waste Management Bin with Fill-Level Sensors',
+            'Remote Patient Monitoring System for Hospitals'
+        ]
+    };
+
+    generateBtn.addEventListener('click', () => {
+        const selectedTech = techSelect.value;
+        if (!selectedTech) {
+            alert('Please select a technology first!');
+            return;
+        }
+
+        // Hide results if visible
+        results.classList.add('hidden');
+        results.innerHTML = '';
+
+        // Show loading
+        loading.classList.remove('hidden');
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+        // Simulate loading for 3 seconds
+        setTimeout(() => {
+            loading.classList.add('hidden');
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '<i class="fas fa-lightbulb"></i> Generate Ideas';
+
+            // Get ideas for selected tech
+            const ideas = projectIdeas[selectedTech];
+            if (ideas && ideas.length > 0) {
+                ideas.forEach((idea, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'idea-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.innerHTML = `
+                        <h4>${index + 1}. ${idea}</h4>
+                        <p>Explore this project to enhance your skills in ${selectedTech.toUpperCase()} and create a standout portfolio piece.</p>
+                    `;
+                    results.appendChild(card);
+                });
+                results.classList.remove('hidden');
+            } else {
+                results.innerHTML = '<p>No ideas found for the selected technology. Please try another.</p>';
+                results.classList.remove('hidden');
+            }
+        }, 3000);
+    });
+
+    // Optional: Auto-generate on selection change for enhanced UX
+    techSelect.addEventListener('change', () => {
+        if (techSelect.value) {
+            generateBtn.disabled = false;
+        } else {
+            generateBtn.disabled = true;
+            results.classList.add('hidden');
+        }
+    });
+
+    // Initial state
+    generateBtn.disabled = true;
+});
